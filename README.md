@@ -3,14 +3,6 @@
 ## Description
 KBank is an application that can be used by parents to incentivize the allowance earning process.
 
-## Feature List
-* parents create earning opportunity list to incentivize desirable behaviors.   
-* Each opportunity, when marked completed, will add predetermined dollar amount to a virtual bank balance
-* parent / child share google login
-* app will track virtual deposits, withdrawals
-* Stretch - monthly interest transactions
-* Stretch - investment opportunities in CDs and Savings accounts with increased virtual interest rates
-
 ## Who uses it?
 Parents in collaboration with their kids - multiple children allowed for each login
 
@@ -31,3 +23,11 @@ Parents in collaboration with their kids - multiple children allowed for each lo
 * Babel
 * Bootstrap
 * SendGrid
+
+## Feature List
+* parents create earning opportunity list to incentivize desirable behaviors.   
+* Each opportunity, when marked completed, will add predetermined dollar amount to a virtual bank balance
+* parent / child share google login
+* app will track virtual deposits, withdrawals
+* Stretch - monthly interest transactions
+* Stretch - investment opportunities in CDs and Savings accounts with increased virtual interest rates

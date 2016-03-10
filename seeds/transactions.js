@@ -1,6 +1,6 @@
 exports.seed = function(knex, Promise){
-  if(true){
-    return knex('transactions').del().then(function(){
+  if(false){
+    return knex('transactions').then(function(){
       return Promise.all([
         knex('transactions').insert({
           child_id: 1,

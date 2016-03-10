@@ -1,23 +1,19 @@
 {
   "name": "kbank",
-  "version": "1.0.0",
-  "description": "virtual bank, task manager for kids",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www",
+    "build": "node node_modules/.bin/webpack",
+    "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cshutchinson/capstone-submissions.git"
-  },
-  "author": "cshutchinson",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/cshutchinson/capstone-submissions/issues"
-  },
-  "homepage": "https://github.com/cshutchinson/capstone-submissions#readme",
   "dependencies": {
-    "knex": "^0.9.0",
-    "pg": "^4.5.1"
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "jade": "~1.11.0",
+    "morgan": "~1.6.1",
+    "serve-favicon": "~2.3.0"
   }
 }

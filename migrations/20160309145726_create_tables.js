@@ -9,13 +9,12 @@ exports.up = function(knex, Promise) {
       table.string('user_image');
       table.string('provider');
     })
-  })
   .then(function(){
     return knex.schema.createTable('children', function(table){
       table.increments();
       table.integer('user_id').references('id').inTable('users');
       table.string('name');
-      image.string('image');
+      table.string('image');
     })
   })
   .then(function(){

@@ -1,12 +1,12 @@
 import { connect } from 'react-redux'
-import { fetchPosts, fetchPostsSuccess, fetchPostsFailure } from '../actions/index';
+import { fetchChildren, fetchChildrenSuccess, fetchChildrenFailure } from '../actions/index';
 
-import PostsList from '../components/PostsList';
+import ChildList from '../components/ChildList';
 
 
 const mapStateToProps = (state) => {
   return {
-    chidren: state.children.childList.children,
+    children: state.children.childList.children,
     loading: state.children.childList.loading
   };
 }
@@ -23,6 +23,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-const ChildListContainer = connect(mapStateToProps, mapDispatchToProps)(ChildList)
+const ChildListContainer = connect(mapStateToProps, mapDispatchToProps)(ChildList);
 
 export default ChildListContainer

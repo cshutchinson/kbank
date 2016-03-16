@@ -9,7 +9,6 @@ export const RESET_CHILDREN = 'RESET_CHILDREN';
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost:3000/api' : '/api';
 export function fetchChildren() {
   const request = axios.get(`${ROOT_URL}/children`);
-
   return {
     type: FETCH_CHILDREN,
     payload: request

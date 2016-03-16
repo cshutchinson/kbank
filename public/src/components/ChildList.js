@@ -13,6 +13,9 @@ class ChildList extends Component {
           <Link style={{color:'black'}} to={"child/" + child.id}>
             <h3 className="list-group-item-heading">{child.name}</h3>
           </Link>
+          <Link style={{color:'blue'}} to={"children/tasks/" + child.id}>
+            <h4 className="list-group-item">Tasks</h4>
+          </Link>
         </li>
       );
     });

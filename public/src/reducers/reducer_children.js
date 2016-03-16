@@ -1,6 +1,7 @@
 import {
 	FETCH_CHILDREN, FETCH_CHILDREN_SUCCESS, FETCH_CHILDREN_FAILURE, RESET_CHILDREN,
 	CREATE_CHILD, CREATE_CHILD_SUCCESS, CREATE_CHILD_FAILURE, RESET_NEW_CHILD,
+	FETCH_TASKS, FETCH_TASKS_SUCCESS,  FETCH_TASKS_FAILURE, RESET_ACTIVE_TASKS,
 	VALIDATE_CHILD_FIELDS,VALIDATE_CHILD_FIELDS_SUCCESS, VALIDATE_CHILD_FIELDS_FAILURE, RESET_CHILD_FIELDS
 
 } from '../actions/index';
@@ -8,6 +9,7 @@ import {
 
 	const INITIAL_STATE = {
 		childList: {children: [], error:null, loading: false},
+		activeTasks:{tasks: [], error:null, loading: false},
 		newChild:{child:null, error: null, loading: false}
 	};
 
@@ -22,6 +24,15 @@ export default function(state = INITIAL_STATE, action) {
     return { ...state, childList: {children: null, error: action.payload, loading: false} };
   case RESET_CHILDREN:// reset childList to initial state
     return { ...state, childList: {children: null, error:null, loading: false} };
+
+	case FETCH_TASKS:
+    return { ...state, activeTasks:{...state.activeTasks, loading: true}};
+  case FETCH_TASKS_SUCCESS:
+    return { ...state, activeTasks: {tasks: action.payload.data, error:null, loading: false}};
+  case FETCH_TASKS_FAILURE:
+    return { ...state, activeTasks: {tasks: null, error:action.payload.data, loading:false}};
+  case RESET_ACTIVE_TASKS:
+    return { ...state, activeTasks: {tasks: null, error:null, loading: false}};
 
 	case CREATE_CHILD:
   	return {...state, newChild: {...state.newChild, loading: true}}

@@ -12,11 +12,17 @@ export const CREATE_CHILD_SUCCESS = 'CREATE_CHILD_SUCCESS';
 export const CREATE_CHILD_FAILURE = 'CREATE_CHILD_FAILURE';
 export const RESET_NEW_CHILD = 'RESET_NEW_CHILD';
 
-//Validate post fields like Title, Categries on the server
+//Validate post fields like name, imageURL on the server
 export const VALIDATE_CHILD_FIELDS = 'VALIDATE_CHILD_FIELDS';
 export const VALIDATE_CHILD_FIELDS_SUCCESS = 'VALIDATE_CHILD_FIELDS_SUCCESS';
 export const VALIDATE_CHILD_FIELDS_FAILURE = 'VALIDATE_CHILD_FIELDS_FAILURE';
 export const RESET_CHILD_FIELDS = 'RESET_CHILD_FIELDS';
+
+// fetch tasks for each child
+export const FETCH_TASKS = 'FETCH_TASKS';
+export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS';
+export const FETCH_TASKS_FAILURE = 'FETCH_TASKS_FAILURE';
+export const RESET_ACTIVE_TASKS = 'RESET_ACTIVE_TASKS';
 
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost:3000/api' : '/api';
 export function fetchChildren() {
@@ -96,5 +102,35 @@ export function createChildFailure(error) {
 export function resetNewChild() {
   return {
     type: RESET_NEW_CHILD
+  }
+};
+
+export function fetchTasks(id) {
+  const request = axios.get(`${ROOT_URL}/children/tasks/${id}`);
+
+  return {
+    type: FETCH_TASKS,
+    payload: request
+  };
+}
+
+
+export function fetchTasksSuccess(activeTasks) {
+  return {
+    type: FETCH_TASKS_SUCCESS,
+    payload: activeTasks
+  };
+}
+
+export function fetchTasksFailure(error) {
+  return {
+    type: FETCH_TASKS_FAILURE,
+    payload: error
+  };
+}
+
+export function resetActiveTasks() {
+  return {
+    type: RESET_ACTIVE_TASKS
   }
 };

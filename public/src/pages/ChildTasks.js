@@ -10,11 +10,6 @@ class ChildTasks extends Component {
     router: PropTypes.object
   };
 
-  // onDeleteClick() {
-  //   this.props.deletePost(this.props.params.id)
-  //     .then(() => { this.context.router.push('/'); });
-  // }
-
   render() {
     return (
       <div className='container'>

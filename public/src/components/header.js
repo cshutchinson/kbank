@@ -41,19 +41,17 @@ class Header extends Component {
     			</li>
   			</ul>
   		 );
-     }
-  	// } else if(type === 'posts_show') {
-  	// 		return (
-  	// 			<span>
-  	// 		<ul className="nav navbar-nav navbar-left">
-    // 			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">Back To Index</Link></li>
-  	// 		</ul>
-  	// 		<div className="navbar-form navbar-right" style={{paddingRight: '30px'}}>
-    // 			<button className="btn btn-warning pull-xs-right"  onClick={()=> {this.props.onDeleteClick()}}>Delete Post</button>
-    // 		</div>
-    // 	  </span>
-  	// 		);
-  	// }
+  	} else if(type === 'tasks_show') {
+  			return (
+  				<span>
+  			<ul className="nav navbar-nav navbar-left">
+    			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">Back To Index</Link></li>
+          <li style={{paddingRight: '20px'}} role="presentation"><Link to="/children/tasks/:id">Transactions</Link></li>
+  			</ul>
+  			
+    	  </span>
+  			);
+  	}
 	};
 
 	render() {

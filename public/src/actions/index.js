@@ -24,6 +24,11 @@ export const FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS';
 export const FETCH_TASKS_FAILURE = 'FETCH_TASKS_FAILURE';
 export const RESET_ACTIVE_TASKS = 'RESET_ACTIVE_TASKS';
 
+// toggle task completion status
+export const TOGGLE_TASK = 'TOGGLE_TASK';
+export const TOGGLE_TASK_SUCCESS = 'TOGGLE_TASK_SUCCESS';
+export const TOGGLE_TASK_FAILURE = 'TOGGLE_TASK_FAILURE';
+
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost:3000/api' : '/api';
 export function fetchChildren() {
   const request = axios.get(`${ROOT_URL}/children`);
@@ -116,7 +121,6 @@ export function fetchTasks(id) {
 
 
 export function fetchTasksSuccess(activeTasks) {
-  console.log('fetch function', activeTasks);
   return {
     type: FETCH_TASKS_SUCCESS,
     payload: activeTasks
@@ -135,3 +139,27 @@ export function resetActiveTasks() {
     type: RESET_ACTIVE_TASKS
   }
 };
+
+export function toggleTask(id) {
+  const request = axios.post(`${ROOT_URL}/toggleTask`, {id: id});
+
+  return {
+    type: TOGGLE_TASK,
+    payload: request
+  };
+}
+
+
+export function toggleTaskSuccess(activeTasks) {
+  return {
+    type: TOGGLE_TASK_SUCCESS,
+    payload: activeTasks
+  };
+}
+
+export function toggleTaskFailure(error) {
+  return {
+    type: TOGGLE_TASK_FAILURE,
+    payload: error
+  };
+}

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 //import { connect } from 'react-redux';
-//import { fetchPost, deletePost } from '../actions/index';
+// import { fetchPost, deletePost } from '../actions/index';
 import { Link } from 'react-router';
 
 class TaskList extends Component {
@@ -15,7 +15,6 @@ class TaskList extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
     this.props.fetchTasks(this.props.childId);
   }
 
@@ -25,12 +24,15 @@ class TaskList extends Component {
       this.context.router.push('/');
     }
   }
-
+// onClick={this.props.toggleTask(task.id)}
   renderTasks(tasks) {
     return tasks.map((task) => {
+      let boundClick = this.props.toggleTask.bind(this, task.id);
       return (
         <li className="list-group-item" key={task.id}>
-          {task.task}-{task.value}
+          {task.id} {task.task}-{task.value}-{task.completed ? 'complete' : 'not complete'}-
+          <input className="btn btn-xs" onClick={boundClick} type="button" value="mark complete" />
+
         </li>
       );
     });

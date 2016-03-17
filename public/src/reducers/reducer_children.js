@@ -41,7 +41,7 @@ export default function(state = INITIAL_STATE, action) {
   case CREATE_CHILD_FAILURE:
   	return {...state, newChild: {child:null, error:action.payload.data, loading: false}}
   case RESET_NEW_CHILD:
-  	return {...state,  newChild:{child:null, error:null, loading: false}}
+  	return {...state, newChild: {child:null, error:null, loading: false}}
 
 	case VALIDATE_CHILD_FIELDS:
 	    return {...state, newChild:{...state.newChild, error: null, loading: true}}

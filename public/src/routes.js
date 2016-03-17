@@ -10,6 +10,6 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={ChildIndex} />
     <Route path="child/new" component={ChildNew} />
-    <Route path="child/tasks" component={TaskList} />
+    <Route path="children/tasks/:id" component={TaskList} />
   </Route>
 );

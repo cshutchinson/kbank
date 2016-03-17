@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 
 
 
-function mapStateToProps(globalState, ownProps) {
-  return { activeTasks: globalState.child.activeTasks, childId: ownProps.id };
+function mapStateToProps(state, ownProps) {
+  return { activeTasks: state.children.activeTasks, childId: ownProps.id };
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -14,6 +14,7 @@ const mapDispatchToProps = (dispatch) => {
     	dispatch(fetchTasks(id))
       	.then((data) =>
           {
+            console.log('TaskListContainer dispatch(fetchTasks) call', data);
           	!data.error ? dispatch(fetchTasksSuccess(data.payload)) : dispatch(fetchTasksFailure(data.payload));
           })
   	 },

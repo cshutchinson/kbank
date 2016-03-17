@@ -9,6 +9,12 @@ router.get('/children', function(req, res, next) {
   });
 });
 
+router.get('/children/tasks/:id', function(req, res){
+  knex('tasks').where('child_id', req.params.id).then(function(tasks){
+    res.json(tasks);
+  })
+})
+
 router.post('/children/new', function(req, res){
   var newChild = {
     user_id: 1,

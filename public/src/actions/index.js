@@ -116,6 +116,7 @@ export function fetchTasks(id) {
 
 
 export function fetchTasksSuccess(activeTasks) {
+  console.log('fetch function', activeTasks);
   return {
     type: FETCH_TASKS_SUCCESS,
     payload: activeTasks

@@ -15,6 +15,7 @@ class TaskList extends Component {
   }
 
   componentDidMount() {
+    console.log('componentDidMount');
     this.props.fetchTasks(this.props.childId);
   }
 
@@ -37,7 +38,6 @@ class TaskList extends Component {
 
   render() {
     const { tasks } = this.props.activeTasks;
-
     if (!tasks) {
       return <div>Loading...</div>;
     }
@@ -46,7 +46,7 @@ class TaskList extends Component {
       <div>
         <h1>Tasks</h1>
         <ul className="list-group">
-          {this.renderTasks(this.props.activeTasks)}
+          {this.renderTasks(tasks)}
         </ul>
       </div>
     );

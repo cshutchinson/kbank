@@ -46,7 +46,7 @@ class Header extends Component {
   				<span>
   			<ul className="nav navbar-nav navbar-left">
     			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">Back To Index</Link></li>
-          <li style={{paddingRight: '20px'}} role="presentation"><Link to="/children/transactions/:id">Transactions</Link></li>
+          <li style={{paddingRight: '20px'}} role="presentation"><Link to={"/children/transactions/"+this.props.postId}>Transactions</Link></li>
   			</ul>
 
     	  </span>
@@ -56,7 +56,7 @@ class Header extends Component {
   				<span>
   			<ul className="nav navbar-nav navbar-left">
     			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">Back To Index</Link></li>
-          <li style={{paddingRight: '20px'}} role="presentation"><Link to="/children/tasks/:id">Tasks</Link></li>
+          <li style={{paddingRight: '20px'}} role="presentation"><Link to={"/children/tasks/"+this.props.postId}>Tasks</Link></li>
   			</ul>
 
     	  </span>

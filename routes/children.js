@@ -10,7 +10,8 @@ router.get('/children', function(req, res, next) {
 });
 
 router.get('/children/tasks/:id', function(req, res){
-  knex('tasks').where('child_id', req.params.id).then(function(tasks){
+  knex('tasks').where('child_id', req.params.id).orderBy('id', 'asc')
+  .then(function(tasks){
     res.json(tasks);
   })
 })
@@ -47,7 +48,8 @@ router.post('/validateChildFields', function(req, res, next){
 router.post('/toggleTask', function(req, res){
   knex('tasks').where('id', req.body.id).update({
     completed: true
-  }).then(function(rowsUpdated){
+  }).orderBy('id', 'asc')
+   .then(function(rowsUpdated){
     res.json(rowsUpdated);
   })
 })

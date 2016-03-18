@@ -4,7 +4,6 @@ import { toggleTask, toggleTaskSuccess, toggleTaskFailure } from '../actions/ind
 import { connect } from 'react-redux';
 
 
-
 function mapStateToProps(state, ownProps) {
   return { activeTasks: state.children.activeTasks, childId: ownProps.id };
 }
@@ -21,15 +20,18 @@ const mapDispatchToProps = (dispatch) => {
      resetMe: () =>{
         dispatch(resetActiveTasks());
      },
-     toggleTask: (id) => {
+     toggleTask: (id, childID) => {
        dispatch(toggleTask(id))
         .then((data) =>
           {
             !data.error ? dispatch(toggleTaskSuccess(data.payload)) : dispatch(toggleTaskFailure(data.payload));
-          })
+            dispatch(fetchTasks(childID)).then((data) =>
+              {
+              	!data.error ? dispatch(fetchTasksSuccess(data.payload)) : dispatch(fetchTasksFailure(data.payload));
+              })
+      	 })
      }
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskList);

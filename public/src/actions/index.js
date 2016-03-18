@@ -150,7 +150,7 @@ export function toggleTask(id) {
 }
 
 
-export function toggleTaskSuccess(activeTasks) {
+export function toggleTaskSuccess(activeTasks, ) {
   return {
     type: TOGGLE_TASK_SUCCESS,
     payload: activeTasks

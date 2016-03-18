@@ -27,7 +27,7 @@ class TaskList extends Component {
 // onClick={this.props.toggleTask(task.id)}
   renderTasks(tasks) {
     return tasks.map((task) => {
-      let boundClick = this.props.toggleTask.bind(this, task.id);
+      let boundClick = this.props.toggleTask.bind(this, task.id, this.props.childId);
       return (
         <li className="list-group-item" key={task.id}>
           {task.id} {task.task}-{task.value}-{task.completed ? 'complete' : 'not complete'}-

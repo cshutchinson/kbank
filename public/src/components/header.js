@@ -46,9 +46,19 @@ class Header extends Component {
   				<span>
   			<ul className="nav navbar-nav navbar-left">
     			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">Back To Index</Link></li>
-          <li style={{paddingRight: '20px'}} role="presentation"><Link to="/children/tasks/:id">Transactions</Link></li>
+          <li style={{paddingRight: '20px'}} role="presentation"><Link to="/children/transactions/:id">Transactions</Link></li>
   			</ul>
-  			
+
+    	  </span>
+  			);
+  	} else if(type === 'transactions_show') {
+  			return (
+  				<span>
+  			<ul className="nav navbar-nav navbar-left">
+    			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">Back To Index</Link></li>
+          <li style={{paddingRight: '20px'}} role="presentation"><Link to="/children/tasks/:id">Tasks</Link></li>
+  			</ul>
+
     	  </span>
   			);
   	}

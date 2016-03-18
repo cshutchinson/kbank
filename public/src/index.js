@@ -30,7 +30,7 @@ const crashReporter = store => next => action => {
 }
 
 const createStoreWithMiddleware = applyMiddleware(
-  promise, logger, crashReporter
+  promise //, logger, crashReporter
 )(createStore);
 
 ReactDOM.render(

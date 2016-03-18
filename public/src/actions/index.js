@@ -29,6 +29,12 @@ export const TOGGLE_TASK = 'TOGGLE_TASK';
 export const TOGGLE_TASK_SUCCESS = 'TOGGLE_TASK_SUCCESS';
 export const TOGGLE_TASK_FAILURE = 'TOGGLE_TASK_FAILURE';
 
+// fetch transactions for each children
+export const FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
+export const FETCH_TRANSACTIONS_SUCCESS = 'FETCH_TRANSACTIONS_SUCCESS';
+export const FETCH_TRANSACTIONS_FAILURE = 'FETCH_TRANSACTIONS_FAILURE';
+export const RESET_TRANSACTIONS = 'RESET_TRANSACTIONS';
+
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost:3000/api' : '/api';
 export function fetchChildren() {
   const request = axios.get(`${ROOT_URL}/children`);
@@ -163,3 +169,32 @@ export function toggleTaskFailure(error) {
     payload: error
   };
 }
+
+
+export function fetchTransactions(id) {
+  const request = axios.get(`${ROOT_URL}/children/transactions/${id}`);
+  return {
+    type: FETCH_TRANSACTIONS,
+    payload: request
+  };
+}
+
+export function fetchTransactionsSuccess(transactions) {
+  return {
+    type: FETCH_TRANSACTIONS_SUCCESS,
+    payload: transactions
+  };
+}
+
+export function fetchTransactionsFailure(error) {
+  return {
+    type: FETCH_TRANSACTIONS_FAILURE,
+    payload: error
+  };
+}
+
+export function resetTransactions() {
+  return {
+    type: RESET_TRANSACTIONS
+  }
+};

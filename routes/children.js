@@ -16,6 +16,13 @@ router.get('/children/tasks/:id', function(req, res){
   })
 })
 
+router.get('/children/transactions/:id', function(req, res){
+  knex('transactions').where('child_id', req.params.id).orderBy('id', 'asc')
+  .then(function(transactions){
+    res.json(transactions);
+  })
+})
+
 router.post('/children/new', function(req, res){
   var newChild = {
     user_id: 1,

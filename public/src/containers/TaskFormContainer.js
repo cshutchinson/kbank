@@ -2,7 +2,7 @@ import TaskForm from '../components/TaskForm.js';
 import { createTask, createTaskSuccess, createTaskFailure, resetNewTask } from '../actions/index';
 import { validateTaskFields, validateTaskFieldsSuccess, validateTaskFieldsFailure, resetTaskFields } from '../actions/index';
 import { fetchTasks, fetchTasksSuccess, fetchTasksFailure, resetActiveTasks } from '../actions/index';
-import { reduxForm } from 'redux-form';
+import { reduxForm, reset} from 'redux-form';
 
 //Client side validation
 function validate(values) {
@@ -17,6 +17,7 @@ function validate(values) {
 
   return errors;
 }
+
 
 //For instant async server validation
 const asyncValidate = (values, dispatch) => {
@@ -59,6 +60,7 @@ const validateAndCreateTask = (values, dispatch) => {
             })
           dispatch(resetTaskFields());
           dispatch(resetNewTask());
+          dispatch(reset('TaskNewForm'));
         }
       });
   });
@@ -71,7 +73,7 @@ const mapDispatchToProps = (dispatch) => {
     createTask: validateAndCreateTask,
     resetMe: () =>{
       dispatch(resetNewTask());
-    } 
+    }
   }
 }
 

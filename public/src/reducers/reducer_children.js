@@ -66,7 +66,7 @@ export default function(state = INITIAL_STATE, action) {
     let errorTask = {task: resultTask.task, value: resultTask.value};
     return {...state, newTask:{...state.newTask, error: errorTask, loading: false}}
   case RESET_TASK_FIELDS:
-    return {...state, newTask:{...state.newTask, error: null, loading: null}}
+    return {...state, newTask:{...state.newTask,task: null, error: null, loading: null}}
 
 	case VALIDATE_CHILD_FIELDS:
 	    return {...state, newChild:{...state.newChild, error: null, loading: true}}

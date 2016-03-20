@@ -67,7 +67,6 @@ router.post('/newTask', function(req, res){
     value: req.body.value,
     completed: false
   };
-  console.log(req.body);
   knex('tasks').insert(newTask).then(function(result){
     if(!result){
 			return res.status(500).json({error: 'Could not save task'});

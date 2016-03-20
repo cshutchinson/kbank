@@ -72,7 +72,7 @@ router.post('/newTask', function(req, res){
     if(!result){
 			return res.status(500).json({error: 'Could not save task'});
     }
-    res.json(newTask);
+    res.json({});
   });
 })
 

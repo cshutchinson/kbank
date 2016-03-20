@@ -17,12 +17,11 @@ class TaskForm extends Component {
     this.props.fields.child_Id.onChange(this.props.id);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.newTask.task && !nextProps.newTask.error) {
-      this.context.router.push('/');
-    }
-
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if(nextProps.newTask.task && !nextProps.newTask.error) {
+  //     this.context.router.push('/');
+  //   }
+  // }
 
   render() {
     const {asyncValidating, fields: { task, value, child_Id}, handleSubmit, submitting } = this.props;
@@ -49,13 +48,7 @@ class TaskForm extends Component {
           </div>
         </div>
 
-        <div className={`form-group ${child_Id.touched && child_Id.invalid ? 'has-error' : ''}`}>
-          <label className="control-label">child_Id</label>
         <input type="hidden" value={this.props.child_Id} className="form-control" {...child_Id} />
-          <div className="help-block">
-            {child_Id.touched ? child_Id.error : ''}
-          </div>
-        </div>
 
 
 

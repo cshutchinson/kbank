@@ -1,6 +1,7 @@
 import TaskForm from '../components/TaskForm.js';
 import { createTask, createTaskSuccess, createTaskFailure, resetNewTask } from '../actions/index';
 import { validateTaskFields, validateTaskFieldsSuccess, validateTaskFieldsFailure, resetTaskFields } from '../actions/index';
+import { fetchTasks, fetchTasksSuccess, fetchTasksFailure, resetActiveTasks } from '../actions/index';
 import { reduxForm } from 'redux-form';
 
 //Client side validation
@@ -13,10 +14,6 @@ function validate(values) {
   if (!values.value || values.value.trim() === '') {
     errors.value = 'Enter value';
   }
-  // if (!values.child_Id || values.child_Id.trim() === '') {
-  //   errors.child_Id = 'Enter value';
-  // }
-
 
   return errors;
 }
@@ -43,7 +40,6 @@ const asyncValidate = (values, dispatch) => {
 
 //For any field errors upon submission (i.e. not instant check)
 const validateAndCreateTask = (values, dispatch) => {
-  console.log('values', values);
   return new Promise((resolve, reject) => {
    dispatch(createTask(values))
     .then((response) => {
@@ -57,6 +53,12 @@ const validateAndCreateTask = (values, dispatch) => {
             //let other components know that everything is fine by updating the redux` state
           dispatch(createTaskSuccess(response.payload));
           resolve();//this is for redux-form itself
+          dispatch(fetchTasks(values.child_Id)).then((data) =>
+            {
+              !data.error ? dispatch(fetchTasksSuccess(data.payload)) : dispatch(fetchTasksFailure(data.payload));
+            })
+          dispatch(resetTaskFields());
+          dispatch(resetNewTask());
         }
       });
   });
@@ -66,10 +68,10 @@ const validateAndCreateTask = (values, dispatch) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-   createTask: validateAndCreateTask,
-   resetMe: () =>{
+    createTask: validateAndCreateTask,
+    resetMe: () =>{
       dispatch(resetNewTask());
-    }
+    } 
   }
 }
 

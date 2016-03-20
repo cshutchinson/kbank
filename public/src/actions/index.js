@@ -45,6 +45,12 @@ export const FETCH_TRANSACTIONS_SUCCESS = 'FETCH_TRANSACTIONS_SUCCESS';
 export const FETCH_TRANSACTIONS_FAILURE = 'FETCH_TRANSACTIONS_FAILURE';
 export const RESET_TRANSACTIONS = 'RESET_TRANSACTIONS';
 
+// create transaction when task marked complete
+export const CREATE_TRANSACTION = 'CREATE_TRANSACTION';
+export const CREATE_TRANSACTION_SUCCESS = 'CREATE_TRANSACTION_SUCCESS';
+export const CREATE_TRANSACTION_FAILURE = 'CREATE_TRANSACTION_FAILURE';
+export const RESET_NEW_TRANSACTION = 'RESET_NEW_TRANSACTION';
+
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost:3000/api' : '/api';
 export function fetchChildren() {
   const request = axios.get(`${ROOT_URL}/children`);
@@ -262,5 +268,34 @@ export function validateTaskFieldsFailure(error) {
 export function resetTaskFields() {
   return {
     type: RESET_TASK_FIELDS
+  }
+};
+
+export function createTransaction(props){
+  const request = axios.post(`${ROOT_URL}/createTransaction`, props);
+
+  return {
+    type: CREATE_TRANSACTION,
+    payload: request
+  };
+};
+
+export function createTransactionSuccess(newTransaction) {
+  return {
+    type: CREATE_TRANSACTION_SUCCESS,
+    payload: newTransaction
+  };
+}
+
+export function createTransactionFailure(error) {
+  return {
+    type: CREATE_TRANSACTION_FAILURE,
+    payload: error
+  };
+}
+
+export function resetNewTransaction() {
+  return {
+    type: RESET_NEW_TRANSACTION
   }
 };

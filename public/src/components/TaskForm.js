@@ -17,12 +17,6 @@ class TaskForm extends Component {
     this.props.fields.child_Id.onChange(this.props.id);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if(nextProps.newTask.task && !nextProps.newTask.error) {
-  //     this.context.router.push('/');
-  //   }
-  // }
-
   render() {
     const {asyncValidating, fields: { task, value, child_Id}, handleSubmit, submitting } = this.props;
 

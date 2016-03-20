@@ -4,6 +4,7 @@ import { fetchTasks } from '../actions/index';
 import { Link } from 'react-router';
 import Header from '../containers/HeaderContainer.js';
 import TaskListContainer from '../containers/TaskListContainer.js';
+import TaskFormContainer from '../containers/TaskFormContainer.js';
 
 class ChildTasks extends Component {
   static contextTypes = {
@@ -15,6 +16,7 @@ class ChildTasks extends Component {
       <div className='container'>
         <Header type="tasks_show" postId={this.props.params.id}/>
         <TaskListContainer id={this.props.params.id}/>
+        <TaskFormContainer id={this.props.params.id}/>
       </div>
     );
   }

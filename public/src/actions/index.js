@@ -12,6 +12,16 @@ export const CREATE_CHILD_SUCCESS = 'CREATE_CHILD_SUCCESS';
 export const CREATE_CHILD_FAILURE = 'CREATE_CHILD_FAILURE';
 export const RESET_NEW_CHILD = 'RESET_NEW_CHILD';
 
+export const CREATE_TASK = 'CREATE_TASK';
+export const CREATE_TASK_SUCCESS = 'CREATE_TASK_SUCCESS';
+export const CREATE_TASK_FAILURE = 'CREATE_TASK_FAILURE';
+export const RESET_NEW_TASK = 'RESET_NEW_TASK';
+
+export const VALIDATE_TASK_FIELDS = 'VALIDATE_TASK_FIELDS';
+export const VALIDATE_TASK_FIELDS_SUCCESS = 'VALIDATE_TASK_FIELDS_SUCCESS';
+export const VALIDATE_TASK_FIELDS_FAILURE = 'VALIDATE_TASK_FIELDS_FAILURE';
+export const RESET_TASK_FIELDS = 'RESET_TASK_FIELDS';
+
 //Validate post fields like name, imageURL on the server
 export const VALIDATE_CHILD_FIELDS = 'VALIDATE_CHILD_FIELDS';
 export const VALIDATE_CHILD_FIELDS_SUCCESS = 'VALIDATE_CHILD_FIELDS_SUCCESS';
@@ -196,5 +206,61 @@ export function fetchTransactionsFailure(error) {
 export function resetTransactions() {
   return {
     type: RESET_TRANSACTIONS
+  }
+};
+
+export function createTask(props, id) {
+  const request = axios.post(`${ROOT_URL}/newTask`, props);
+  return {
+    type: CREATE_TASK,
+    payload: request
+  };
+}
+
+export function createTaskSuccess(newTask) {
+  return {
+    type: CREATE_TASK_SUCCESS,
+    payload: newTask
+  };
+}
+
+export function createTaskFailure(error) {
+  return {
+    type: CREATE_TASK_FAILURE,
+    payload: error
+  };
+}
+
+export function resetNewTask() {
+  return {
+    type: RESET_NEW_TASK
+  }
+};
+
+export function validateTaskFields(props) {
+  const request = axios.post(`${ROOT_URL}/validateTaskFields`, props);
+
+  return {
+    type: VALIDATE_TASK_FIELDS,
+    payload: request
+  };
+}
+
+export function validateTaskFieldsSuccess() {
+  return {
+    type: VALIDATE_TASK_FIELDS_SUCCESS
+  };
+}
+
+export function validateTaskFieldsFailure(error) {
+  return {
+    type: VALIDATE_TASK_FIELDS_FAILURE,
+    payload: error
+  };
+}
+
+export function resetTaskFields() {
+  return {
+    type: RESET_TASK_FIELDS
   }
 };

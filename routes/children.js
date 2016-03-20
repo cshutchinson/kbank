@@ -52,6 +52,30 @@ router.post('/validateChildFields', function(req, res, next){
   })
 });
 
+router.post('/validateTaskFields', function(req, res){
+  var body = req.body;
+  var task = body.task ? body.task.trim() : '';
+  if (task){
+    res.json({});
+  }
+})
+
+router.post('/newTask', function(req, res){
+  var newTask = {
+    child_id: req.body.child_Id,
+    task: req.body.task,
+    value: req.body.value,
+    completed: false
+  };
+  console.log(req.body);
+  knex('tasks').insert(newTask).then(function(result){
+    if(!result){
+			return res.status(500).json({error: 'Could not save task'});
+    }
+    res.json(newTask);
+  });
+})
+
 router.post('/toggleTask', function(req, res){
   knex('tasks').where('id', req.body.id).update({
     completed: true

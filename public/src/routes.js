@@ -8,7 +8,7 @@ import TaskList from './pages/ChildTasks';
 import TransactionList from './pages/ChildTransactions';
 
 export default (
-  <Route path="/" component={App}>
+  <Route path="/main" component={App}>
     <IndexRoute component={ChildIndex} />
     <Route path="child/new" component={ChildNew} />
     <Route path="children/tasks/:id" component={TaskList} />

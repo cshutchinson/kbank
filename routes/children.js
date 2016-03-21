@@ -10,7 +10,8 @@ router.get('/children', function(req, res, next) {
 });
 
 router.get('/children/tasks/:id', function(req, res){
-  knex('tasks').where('child_id', req.params.id).orderBy('id', 'asc')
+  knex('tasks').where('child_id', req.params.id)
+  .andWhere('completed', 'false').orderBy('id', 'asc')
   .then(function(tasks){
     res.json(tasks);
   })
@@ -85,16 +86,13 @@ router.post('/toggleTask', function(req, res){
 })
 
 router.post('/createTransaction', function(req, res){
-  // console.log('req', req.body);
   knex('tasks').where('id', req.body.id).first().then(function(task){
-    // console.log('task', task);
     var newTransaction = {
       child_id: task.child_id,
       date: new Date(),
       amount: task.value,
       description: task.task
     }
-    console.log('newTrans', newTransaction);
     knex('transactions').insert(newTransaction).then(function(result){
       if(!result){
         return res.status(500).json({error: 'Could not save transaction'});

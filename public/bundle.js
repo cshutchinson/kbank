@@ -75,13 +75,44 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _reduxPromise = __webpack_require__(306);
+	var _reduxPromise = __webpack_require__(319);
 
 	var _reduxPromise2 = _interopRequireDefault(_reduxPromise);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxPromise2.default)(_redux.createStore);
+	var logger = function logger(store) {
+	  return function (next) {
+	    return function (action) {
+	      console.log('dispatching', action);
+	      var result = next(action);
+	      console.log('next state', store.getState());
+	      return result;
+	    };
+	  };
+	};
+
+	var crashReporter = function crashReporter(store) {
+	  return function (next) {
+	    return function (action) {
+	      try {
+	        return next(action);
+	      } catch (err) {
+	        console.error('Caught an exception!', err);
+	        Raven.captureException(err, {
+	          extra: {
+	            action: action,
+	            state: store.getState()
+	          }
+	        });
+	        throw err;
+	      }
+	    };
+	  };
+	};
+
+	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxPromise2.default //, logger, crashReporter
+	)(_redux.createStore);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	  _reactRedux.Provider,
@@ -26160,17 +26191,17 @@
 
 	var _redux = __webpack_require__(166);
 
-	var _reducer_posts = __webpack_require__(238);
+	var _reducer_children = __webpack_require__(238);
 
-	var _reducer_posts2 = _interopRequireDefault(_reducer_posts);
+	var _reducer_children2 = _interopRequireDefault(_reducer_children);
 
 	var _reduxForm = __webpack_require__(257);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var rootReducer = (0, _redux.combineReducers)({
-	  children: _reducer_posts2.default //<-- Children
-	  // form: formReducer // <-- redux-form
+	  children: _reducer_children2.default, //<-- Children
+	  form: _reduxForm.reducer // <-- redux-form
 	});
 
 	exports.default = rootReducer;
@@ -26205,6 +26236,65 @@
 	    case _index.RESET_CHILDREN:
 	      // reset childList to initial state
 	      return _extends({}, state, { childList: { children: null, error: null, loading: false } });
+
+	    case _index.FETCH_TASKS:
+	      return _extends({}, state, { activeTasks: _extends({}, state.activeTasks, { loading: true }) });
+	    case _index.FETCH_TASKS_SUCCESS:
+	      return _extends({}, state, { activeTasks: { tasks: action.payload.data, error: null, loading: false } });
+	    case _index.FETCH_TASKS_FAILURE:
+	      return _extends({}, state, { activeTasks: { tasks: null, error: action.payload.data, loading: false } });
+	    case _index.RESET_ACTIVE_TASKS:
+	      return _extends({}, state, { activeTasks: { tasks: null, error: null, loading: false } });
+
+	    case _index.CREATE_CHILD:
+	      return _extends({}, state, { newChild: _extends({}, state.newChild, { loading: true }) });
+	    case _index.CREATE_CHILD_SUCCESS:
+	      return _extends({}, state, { newChild: { child: action.payload, error: null, loading: false } });
+	    case _index.CREATE_CHILD_FAILURE:
+	      return _extends({}, state, { newChild: { child: null, error: action.payload.data, loading: false } });
+	    case _index.RESET_NEW_CHILD:
+	      return _extends({}, state, { newChild: { child: null, error: null, loading: false } });
+
+	    case _index.CREATE_TASK:
+	      return _extends({}, state, { newTask: _extends({}, state.newTask, { loading: true }) });
+	    case _index.CREATE_TASK_SUCCESS:
+	      return _extends({}, state, { newTask: { task: action.payload, error: null, loading: false } });
+	    case _index.CREATE_TASK_FAILURE:
+	      return _extends({}, state, { newTask: { task: null, error: action.payload.data, loading: false } });
+	    case _index.RESET_NEW_TASK:
+	      return _extends({}, state, { newTask: { task: null, error: null, loading: false } });
+
+	    case _index.VALIDATE_TASK_FIELDS:
+	      return _extends({}, state, { newTask: _extends({}, state.newTask, { error: null, loading: true }) });
+	    case _index.VALIDATE_TASK_FIELDS_SUCCESS:
+	      return _extends({}, state, { newTask: _extends({}, state.newTask, { error: null, loading: false }) });
+	    case _index.VALIDATE_TASK_FIELDS_FAILURE:
+	      var resultTask = action.payload.data;
+	      var errorTask = { task: resultTask.task, value: resultTask.value };
+	      return _extends({}, state, { newTask: _extends({}, state.newTask, { error: errorTask, loading: false }) });
+	    case _index.RESET_TASK_FIELDS:
+	      return _extends({}, state, { newTask: _extends({}, state.newTask, { task: null, error: null, loading: null }) });
+
+	    case _index.VALIDATE_CHILD_FIELDS:
+	      return _extends({}, state, { newChild: _extends({}, state.newChild, { error: null, loading: true }) });
+	    case _index.VALIDATE_CHILD_FIELDS_SUCCESS:
+	      return _extends({}, state, { newChild: _extends({}, state.newChild, { error: null, loading: false }) });
+	    case _index.VALIDATE_CHILD_FIELDS_FAILURE:
+	      var result = action.payload.data;
+	      var error = { name: result.name, image: result.image, description: result.description };
+	      return _extends({}, state, { newChild: _extends({}, state.newChild, { error: error, loading: false }) });
+	    case _index.RESET_CHILD_FIELDS:
+	      return _extends({}, state, { newChild: _extends({}, state.newChild, { error: null, loading: null }) });
+
+	    case _index.FETCH_TRANSACTIONS:
+	      return _extends({}, state, { transactions: _extends({}, state.transactions, { loading: true }) });
+	    case _index.FETCH_TRANSACTIONS_SUCCESS:
+	      return _extends({}, state, { transactions: { transactions: action.payload.data, error: null, loading: false } });
+	    case _index.FETCH_TRANSACTIONS_FAILURE:
+	      return _extends({}, state, { transactions: { transactions: null, error: action.payload.data, loading: false } });
+	    case _index.RESET_TRANSACTIONS:
+	      return _extends({}, state, { transactions: { transactions: null, error: null, loading: false } });
+
 	    default:
 	      return state;
 	  }
@@ -26213,7 +26303,11 @@
 	var _index = __webpack_require__(239);
 
 	var INITIAL_STATE = {
-	  childList: { children: [], error: null, loading: false }
+	  childList: { children: [], error: null, loading: false },
+	  activeTasks: { tasks: [], error: null, loading: false },
+	  newChild: { child: null, error: null, loading: false },
+	  newTask: { task: null, error: null, loading: false },
+	  transactions: { transactions: [], error: null, loading: false }
 	};
 
 /***/ },
@@ -26225,10 +26319,41 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.RESET_CHILDREN = exports.FETCH_CHILDREN_FAILURE = exports.FETCH_CHILDREN_SUCCESS = exports.FETCH_CHILDREN = undefined;
+	exports.RESET_NEW_TRANSACTION = exports.CREATE_TRANSACTION_FAILURE = exports.CREATE_TRANSACTION_SUCCESS = exports.CREATE_TRANSACTION = exports.RESET_TRANSACTIONS = exports.FETCH_TRANSACTIONS_FAILURE = exports.FETCH_TRANSACTIONS_SUCCESS = exports.FETCH_TRANSACTIONS = exports.TOGGLE_TASK_FAILURE = exports.TOGGLE_TASK_SUCCESS = exports.TOGGLE_TASK = exports.RESET_ACTIVE_TASKS = exports.FETCH_TASKS_FAILURE = exports.FETCH_TASKS_SUCCESS = exports.FETCH_TASKS = exports.RESET_CHILD_FIELDS = exports.VALIDATE_CHILD_FIELDS_FAILURE = exports.VALIDATE_CHILD_FIELDS_SUCCESS = exports.VALIDATE_CHILD_FIELDS = exports.RESET_TASK_FIELDS = exports.VALIDATE_TASK_FIELDS_FAILURE = exports.VALIDATE_TASK_FIELDS_SUCCESS = exports.VALIDATE_TASK_FIELDS = exports.RESET_NEW_TASK = exports.CREATE_TASK_FAILURE = exports.CREATE_TASK_SUCCESS = exports.CREATE_TASK = exports.RESET_NEW_CHILD = exports.CREATE_CHILD_FAILURE = exports.CREATE_CHILD_SUCCESS = exports.CREATE_CHILD = exports.RESET_CHILDREN = exports.FETCH_CHILDREN_FAILURE = exports.FETCH_CHILDREN_SUCCESS = exports.FETCH_CHILDREN = undefined;
 	exports.fetchChildren = fetchChildren;
 	exports.fetchChildrenSuccess = fetchChildrenSuccess;
 	exports.fetchChildrenFailure = fetchChildrenFailure;
+	exports.validateChildFields = validateChildFields;
+	exports.validateChildFieldsSuccess = validateChildFieldsSuccess;
+	exports.validateChildFieldsFailure = validateChildFieldsFailure;
+	exports.resetChildFields = resetChildFields;
+	exports.createChild = createChild;
+	exports.createChildSuccess = createChildSuccess;
+	exports.createChildFailure = createChildFailure;
+	exports.resetNewChild = resetNewChild;
+	exports.fetchTasks = fetchTasks;
+	exports.fetchTasksSuccess = fetchTasksSuccess;
+	exports.fetchTasksFailure = fetchTasksFailure;
+	exports.resetActiveTasks = resetActiveTasks;
+	exports.toggleTask = toggleTask;
+	exports.toggleTaskSuccess = toggleTaskSuccess;
+	exports.toggleTaskFailure = toggleTaskFailure;
+	exports.fetchTransactions = fetchTransactions;
+	exports.fetchTransactionsSuccess = fetchTransactionsSuccess;
+	exports.fetchTransactionsFailure = fetchTransactionsFailure;
+	exports.resetTransactions = resetTransactions;
+	exports.createTask = createTask;
+	exports.createTaskSuccess = createTaskSuccess;
+	exports.createTaskFailure = createTaskFailure;
+	exports.resetNewTask = resetNewTask;
+	exports.validateTaskFields = validateTaskFields;
+	exports.validateTaskFieldsSuccess = validateTaskFieldsSuccess;
+	exports.validateTaskFieldsFailure = validateTaskFieldsFailure;
+	exports.resetTaskFields = resetTaskFields;
+	exports.createTransaction = createTransaction;
+	exports.createTransactionSuccess = createTransactionSuccess;
+	exports.createTransactionFailure = createTransactionFailure;
+	exports.resetNewTransaction = resetNewTransaction;
 
 	var _axios = __webpack_require__(240);
 
@@ -26242,10 +26367,54 @@
 	var FETCH_CHILDREN_FAILURE = exports.FETCH_CHILDREN_FAILURE = 'FETCH_CHILDREN_FAILURE';
 	var RESET_CHILDREN = exports.RESET_CHILDREN = 'RESET_CHILDREN';
 
+	//Create new post
+	var CREATE_CHILD = exports.CREATE_CHILD = 'CREATE_CHILD';
+	var CREATE_CHILD_SUCCESS = exports.CREATE_CHILD_SUCCESS = 'CREATE_CHILD_SUCCESS';
+	var CREATE_CHILD_FAILURE = exports.CREATE_CHILD_FAILURE = 'CREATE_CHILD_FAILURE';
+	var RESET_NEW_CHILD = exports.RESET_NEW_CHILD = 'RESET_NEW_CHILD';
+
+	var CREATE_TASK = exports.CREATE_TASK = 'CREATE_TASK';
+	var CREATE_TASK_SUCCESS = exports.CREATE_TASK_SUCCESS = 'CREATE_TASK_SUCCESS';
+	var CREATE_TASK_FAILURE = exports.CREATE_TASK_FAILURE = 'CREATE_TASK_FAILURE';
+	var RESET_NEW_TASK = exports.RESET_NEW_TASK = 'RESET_NEW_TASK';
+
+	var VALIDATE_TASK_FIELDS = exports.VALIDATE_TASK_FIELDS = 'VALIDATE_TASK_FIELDS';
+	var VALIDATE_TASK_FIELDS_SUCCESS = exports.VALIDATE_TASK_FIELDS_SUCCESS = 'VALIDATE_TASK_FIELDS_SUCCESS';
+	var VALIDATE_TASK_FIELDS_FAILURE = exports.VALIDATE_TASK_FIELDS_FAILURE = 'VALIDATE_TASK_FIELDS_FAILURE';
+	var RESET_TASK_FIELDS = exports.RESET_TASK_FIELDS = 'RESET_TASK_FIELDS';
+
+	//Validate post fields like name, imageURL on the server
+	var VALIDATE_CHILD_FIELDS = exports.VALIDATE_CHILD_FIELDS = 'VALIDATE_CHILD_FIELDS';
+	var VALIDATE_CHILD_FIELDS_SUCCESS = exports.VALIDATE_CHILD_FIELDS_SUCCESS = 'VALIDATE_CHILD_FIELDS_SUCCESS';
+	var VALIDATE_CHILD_FIELDS_FAILURE = exports.VALIDATE_CHILD_FIELDS_FAILURE = 'VALIDATE_CHILD_FIELDS_FAILURE';
+	var RESET_CHILD_FIELDS = exports.RESET_CHILD_FIELDS = 'RESET_CHILD_FIELDS';
+
+	// fetch tasks for each child
+	var FETCH_TASKS = exports.FETCH_TASKS = 'FETCH_TASKS';
+	var FETCH_TASKS_SUCCESS = exports.FETCH_TASKS_SUCCESS = 'FETCH_TASKS_SUCCESS';
+	var FETCH_TASKS_FAILURE = exports.FETCH_TASKS_FAILURE = 'FETCH_TASKS_FAILURE';
+	var RESET_ACTIVE_TASKS = exports.RESET_ACTIVE_TASKS = 'RESET_ACTIVE_TASKS';
+
+	// toggle task completion status
+	var TOGGLE_TASK = exports.TOGGLE_TASK = 'TOGGLE_TASK';
+	var TOGGLE_TASK_SUCCESS = exports.TOGGLE_TASK_SUCCESS = 'TOGGLE_TASK_SUCCESS';
+	var TOGGLE_TASK_FAILURE = exports.TOGGLE_TASK_FAILURE = 'TOGGLE_TASK_FAILURE';
+
+	// fetch transactions for each children
+	var FETCH_TRANSACTIONS = exports.FETCH_TRANSACTIONS = 'FETCH_TRANSACTIONS';
+	var FETCH_TRANSACTIONS_SUCCESS = exports.FETCH_TRANSACTIONS_SUCCESS = 'FETCH_TRANSACTIONS_SUCCESS';
+	var FETCH_TRANSACTIONS_FAILURE = exports.FETCH_TRANSACTIONS_FAILURE = 'FETCH_TRANSACTIONS_FAILURE';
+	var RESET_TRANSACTIONS = exports.RESET_TRANSACTIONS = 'RESET_TRANSACTIONS';
+
+	// create transaction when task marked complete
+	var CREATE_TRANSACTION = exports.CREATE_TRANSACTION = 'CREATE_TRANSACTION';
+	var CREATE_TRANSACTION_SUCCESS = exports.CREATE_TRANSACTION_SUCCESS = 'CREATE_TRANSACTION_SUCCESS';
+	var CREATE_TRANSACTION_FAILURE = exports.CREATE_TRANSACTION_FAILURE = 'CREATE_TRANSACTION_FAILURE';
+	var RESET_NEW_TRANSACTION = exports.RESET_NEW_TRANSACTION = 'RESET_NEW_TRANSACTION';
+
 	var ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost:3000/api' : '/api';
 	function fetchChildren() {
 	  var request = _axios2.default.get(ROOT_URL + '/children');
-
 	  return {
 	    type: FETCH_CHILDREN,
 	    payload: request
@@ -26265,6 +26434,228 @@
 	    payload: error
 	  };
 	}
+
+	function validateChildFields(props) {
+	  var request = _axios2.default.post(ROOT_URL + '/validateChildFields', props);
+
+	  return {
+	    type: VALIDATE_CHILD_FIELDS,
+	    payload: request
+	  };
+	}
+
+	function validateChildFieldsSuccess() {
+	  return {
+	    type: VALIDATE_CHILD_FIELDS_SUCCESS
+	  };
+	}
+
+	function validateChildFieldsFailure(error) {
+	  return {
+	    type: VALIDATE_CHILD_FIELDS_FAILURE,
+	    payload: error
+	  };
+	}
+
+	function resetChildFields() {
+	  return {
+	    type: RESET_CHILD_FIELDS
+	  };
+	};
+
+	function createChild(props) {
+	  var request = _axios2.default.post(ROOT_URL + '/children/new', props);
+
+	  return {
+	    type: CREATE_CHILD,
+	    payload: request
+	  };
+	}
+
+	function createChildSuccess(newChild) {
+	  return {
+	    type: CREATE_CHILD_SUCCESS,
+	    payload: newChild
+	  };
+	}
+
+	function createChildFailure(error) {
+	  return {
+	    type: CREATE_CHILD_FAILURE,
+	    payload: error
+	  };
+	}
+
+	function resetNewChild() {
+	  return {
+	    type: RESET_NEW_CHILD
+	  };
+	};
+
+	function fetchTasks(id) {
+	  var request = _axios2.default.get(ROOT_URL + '/children/tasks/' + id);
+
+	  return {
+	    type: FETCH_TASKS,
+	    payload: request
+	  };
+	}
+
+	function fetchTasksSuccess(activeTasks) {
+	  return {
+	    type: FETCH_TASKS_SUCCESS,
+	    payload: activeTasks
+	  };
+	}
+
+	function fetchTasksFailure(error) {
+	  return {
+	    type: FETCH_TASKS_FAILURE,
+	    payload: error
+	  };
+	}
+
+	function resetActiveTasks() {
+	  return {
+	    type: RESET_ACTIVE_TASKS
+	  };
+	};
+
+	function toggleTask(id) {
+	  var request = _axios2.default.post(ROOT_URL + '/toggleTask', { id: id });
+
+	  return {
+	    type: TOGGLE_TASK,
+	    payload: request
+	  };
+	}
+
+	function toggleTaskSuccess(activeTasks) {
+	  return {
+	    type: TOGGLE_TASK_SUCCESS,
+	    payload: activeTasks
+	  };
+	}
+
+	function toggleTaskFailure(error) {
+	  return {
+	    type: TOGGLE_TASK_FAILURE,
+	    payload: error
+	  };
+	}
+
+	function fetchTransactions(id) {
+	  var request = _axios2.default.get(ROOT_URL + '/children/transactions/' + id);
+	  return {
+	    type: FETCH_TRANSACTIONS,
+	    payload: request
+	  };
+	}
+
+	function fetchTransactionsSuccess(transactions) {
+	  return {
+	    type: FETCH_TRANSACTIONS_SUCCESS,
+	    payload: transactions
+	  };
+	}
+
+	function fetchTransactionsFailure(error) {
+	  return {
+	    type: FETCH_TRANSACTIONS_FAILURE,
+	    payload: error
+	  };
+	}
+
+	function resetTransactions() {
+	  return {
+	    type: RESET_TRANSACTIONS
+	  };
+	};
+
+	function createTask(props, id) {
+	  var request = _axios2.default.post(ROOT_URL + '/newTask', props);
+	  return {
+	    type: CREATE_TASK,
+	    payload: request
+	  };
+	}
+
+	function createTaskSuccess(newTask) {
+	  return {
+	    type: CREATE_TASK_SUCCESS,
+	    payload: newTask
+	  };
+	}
+
+	function createTaskFailure(error) {
+	  return {
+	    type: CREATE_TASK_FAILURE,
+	    payload: error
+	  };
+	}
+
+	function resetNewTask() {
+	  return {
+	    type: RESET_NEW_TASK
+	  };
+	};
+
+	function validateTaskFields(props) {
+	  var request = _axios2.default.post(ROOT_URL + '/validateTaskFields', props);
+
+	  return {
+	    type: VALIDATE_TASK_FIELDS,
+	    payload: request
+	  };
+	}
+
+	function validateTaskFieldsSuccess() {
+	  return {
+	    type: VALIDATE_TASK_FIELDS_SUCCESS
+	  };
+	}
+
+	function validateTaskFieldsFailure(error) {
+	  return {
+	    type: VALIDATE_TASK_FIELDS_FAILURE,
+	    payload: error
+	  };
+	}
+
+	function resetTaskFields() {
+	  return {
+	    type: RESET_TASK_FIELDS
+	  };
+	};
+
+	function createTransaction(props) {
+	  var request = _axios2.default.post(ROOT_URL + '/createTransaction', props);
+
+	  return {
+	    type: CREATE_TRANSACTION,
+	    payload: request
+	  };
+	};
+
+	function createTransactionSuccess(newTransaction) {
+	  return {
+	    type: CREATE_TRANSACTION_SUCCESS,
+	    payload: newTransaction
+	  };
+	}
+
+	function createTransactionFailure(error) {
+	  return {
+	    type: CREATE_TRANSACTION_FAILURE,
+	    payload: error
+	  };
+	}
+
+	function resetNewTransaction() {
+	  return {
+	    type: RESET_NEW_TRANSACTION
+	  };
+	};
 
 /***/ },
 /* 240 */
@@ -30305,12 +30696,27 @@
 
 	var _ChildIndex2 = _interopRequireDefault(_ChildIndex);
 
+	var _ChildNew = __webpack_require__(308);
+
+	var _ChildNew2 = _interopRequireDefault(_ChildNew);
+
+	var _ChildTasks = __webpack_require__(311);
+
+	var _ChildTasks2 = _interopRequireDefault(_ChildTasks);
+
+	var _ChildTransactions = __webpack_require__(316);
+
+	var _ChildTransactions2 = _interopRequireDefault(_ChildTransactions);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = _react2.default.createElement(
 	  _reactRouter.Route,
 	  { path: '/', component: _App2.default },
-	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _ChildIndex2.default })
+	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _ChildIndex2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'child/new', component: _ChildNew2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'children/tasks/:id', component: _ChildTasks2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'children/transactions/:id', component: _ChildTransactions2.default })
 	);
 
 /***/ },
@@ -30378,7 +30784,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _ChildListContainer = __webpack_require__(304);
+	var _HeaderContainer = __webpack_require__(304);
+
+	var _HeaderContainer2 = _interopRequireDefault(_HeaderContainer);
+
+	var _ChildListContainer = __webpack_require__(306);
 
 	var _ChildListContainer2 = _interopRequireDefault(_ChildListContainer);
 
@@ -30405,6 +30815,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'container' },
+	        _react2.default.createElement(_HeaderContainer2.default, { type: 'child_index' }),
 	        _react2.default.createElement(_ChildListContainer2.default, null)
 	      );
 	    }
@@ -30425,11 +30836,219 @@
 	  value: true
 	});
 
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
 	var _reactRedux = __webpack_require__(160);
 
 	var _index = __webpack_require__(239);
 
-	var _ChildList = __webpack_require__(305);
+	var _header = __webpack_require__(305);
+
+	var _header2 = _interopRequireDefault(_header);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function mapStateToProps(state) {
+	  return {
+	    // deletedPost: state.posts.deletedPost
+	  };
+	}
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {
+	    onDeleteClick: function onDeleteClick() {
+	      dispatch((0, _index.deletePost)(ownProps.postId)).then(function (response) {
+	        !response.error ? dispatch((0, _index.deletePostSuccess)(response.payload.data)) : dispatch((0, _index.deletePostFailure)(response.payload.data));
+	      });
+	    },
+	    resetMe: function resetMe() {
+	      // dispatch(resetDeletedPost());
+	    }
+	  };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_header2.default);
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(181);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Header = function (_Component) {
+	  _inherits(Header, _Component);
+
+	  function Header() {
+	    _classCallCheck(this, Header);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Header).apply(this, arguments));
+	  }
+
+	  _createClass(Header, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      //Important! If your component is navigating based on some global state(from say componentWillReceiveProps)
+	      //always reset that global state back to null when you REMOUNT
+	      this.props.resetMe();
+	    }
+
+	    // componentWillReceiveProps(nextProps) {
+	    //   if(nextProps.deletedPost.error) {
+	    //     alert('Could not delete. Please try again.');
+	    //   } else if(nextProps.deletedPost.post && !nextProps.deletedPost.error) {
+	    //     this.context.router.push('/');
+	    //   }
+	    // }
+
+	  }, {
+	    key: 'renderLinks',
+	    value: function renderLinks() {
+	      var type = this.props.type;
+
+	      if (type === 'child_index') {
+	        return _react2.default.createElement(
+	          'ul',
+	          { className: 'nav navbar-nav navbar-right' },
+	          _react2.default.createElement(
+	            'li',
+	            { style: { paddingRight: '20px' }, role: 'presentation' },
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { style: { color: '#3385ff', fontSize: '18px' }, to: '/child/new' },
+	              'Add Child'
+	            )
+	          )
+	        );
+	      } else if (type === 'child_new') {
+	        return _react2.default.createElement(
+	          'ul',
+	          { className: 'nav navbar-nav navbar-right' },
+	          _react2.default.createElement(
+	            'li',
+	            { style: { paddingRight: '10px' }, role: 'presentation' },
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { className: 'text-xs-right', to: '/' },
+	              'Back To Index'
+	            )
+	          )
+	        );
+	      } else if (type === 'tasks_show') {
+	        return _react2.default.createElement(
+	          'span',
+	          null,
+	          _react2.default.createElement(
+	            'ul',
+	            { className: 'nav navbar-nav navbar-left' },
+	            _react2.default.createElement(
+	              'li',
+	              { style: { paddingRight: '20px' }, role: 'presentation' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/' },
+	                'Back To Index'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { style: { paddingRight: '20px' }, role: 'presentation' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: "/children/transactions/" + this.props.postId },
+	                'Transactions'
+	              )
+	            )
+	          )
+	        );
+	      } else if (type === 'transactions_show') {
+	        return _react2.default.createElement(
+	          'span',
+	          null,
+	          _react2.default.createElement(
+	            'ul',
+	            { className: 'nav navbar-nav navbar-left' },
+	            _react2.default.createElement(
+	              'li',
+	              { style: { paddingRight: '20px' }, role: 'presentation' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/' },
+	                'Back To Index'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { style: { paddingRight: '20px' }, role: 'presentation' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: "/children/tasks/" + this.props.postId },
+	                'Tasks'
+	              )
+	            )
+	          )
+	        );
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'nav',
+	        { className: 'navbar navbar-default navbar-static-top' },
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'navbar', className: 'navbar-collapse collapse' },
+	          this.renderLinks()
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Header;
+	}(_react.Component);
+
+	Header.contextTypes = {
+	  router: _react.PropTypes.object
+	};
+	exports.default = Header;
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _index = __webpack_require__(239);
+
+	var _ChildList = __webpack_require__(307);
 
 	var _ChildList2 = _interopRequireDefault(_ChildList);
 
@@ -30458,7 +31077,7 @@
 	exports.default = ChildListContainer;
 
 /***/ },
-/* 305 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30497,6 +31116,10 @@
 	    value: function componentWillMount() {
 	      this.props.fetchChildren();
 	    }
+	    // <Link style={{color:'black'}} to={"child/" + child.id}>
+	    //   <h3 className="list-group-item-heading">{child.name}</h3>
+	    // </Link>
+
 	  }, {
 	    key: 'renderPosts',
 	    value: function renderPosts(children) {
@@ -30505,12 +31128,26 @@
 	          'li',
 	          { className: 'list-group-item', key: child.id },
 	          _react2.default.createElement(
+	            'h3',
+	            { className: 'list-group-item-heading' },
+	            child.name
+	          ),
+	          _react2.default.createElement(
 	            _reactRouter.Link,
-	            { style: { color: 'black' }, to: "child/" + child.id },
+	            { style: { color: 'blue' }, to: "children/tasks/" + child.id },
 	            _react2.default.createElement(
-	              'h3',
-	              { className: 'list-group-item-heading' },
-	              child.name
+	              'h4',
+	              { className: 'list-group-item' },
+	              'Tasks'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { style: { color: 'blue' }, to: "children/transactions/" + child.id },
+	            _react2.default.createElement(
+	              'h4',
+	              { className: 'list-group-item' },
+	              'Transactions'
 	            )
 	          )
 	        );
@@ -30559,7 +31196,991 @@
 	exports.default = ChildList;
 
 /***/ },
-/* 306 */
+/* 308 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _HeaderContainer = __webpack_require__(304);
+
+	var _HeaderContainer2 = _interopRequireDefault(_HeaderContainer);
+
+	var _ChildFormContainer = __webpack_require__(309);
+
+	var _ChildFormContainer2 = _interopRequireDefault(_ChildFormContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ChildNew = function (_Component) {
+	  _inherits(ChildNew, _Component);
+
+	  function ChildNew() {
+	    _classCallCheck(this, ChildNew);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ChildNew).apply(this, arguments));
+	  }
+
+	  _createClass(ChildNew, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'container' },
+	        _react2.default.createElement(_HeaderContainer2.default, { type: 'child_new' }),
+	        _react2.default.createElement(_ChildFormContainer2.default, null)
+	      );
+	    }
+	  }]);
+
+	  return ChildNew;
+	}(_react.Component);
+
+	exports.default = ChildNew;
+
+/***/ },
+/* 309 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _ChildForm = __webpack_require__(310);
+
+	var _ChildForm2 = _interopRequireDefault(_ChildForm);
+
+	var _index = __webpack_require__(239);
+
+	var _reduxForm = __webpack_require__(257);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//Client side validation
+	function validate(values) {
+	  var errors = {};
+
+	  if (!values.name || values.name.trim() === '') {
+	    errors.name = 'Enter child name';
+	  }
+	  if (!values.image || values.image.trim() === '') {
+	    errors.image = 'Enter image';
+	  }
+
+	  return errors;
+	}
+
+	//For instant async server validation
+	var asyncValidate = function asyncValidate(values, dispatch) {
+	  return new Promise(function (resolve, reject) {
+	    dispatch((0, _index.validateChildFields)(values)).then(function (response) {
+	      var data = response.payload.data;
+	      //if status is not 200 or any one of the fields exist, then there is a field error
+	      if (response.payload.status != 200 || data.name || data.image) {
+	        //let other components know of error by updating the redux` state
+	        dispatch((0, _index.validateChildFieldsFailure)(response.payload));
+	        reject(data); //this is for redux-form itself
+	      } else {
+	          //let other components know that everything is fine by updating the redux` state
+	          dispatch((0, _index.validateChildFieldsSuccess)(response.payload)); //ps: this is same as dispatching RESET_POST_FIELDS
+	          resolve(); //this is for redux-form itself
+	        }
+	    });
+	  });
+	};
+
+	//For any field errors upon submission (i.e. not instant check)
+	var validateAndCreateChild = function validateAndCreateChild(values, dispatch) {
+	  return new Promise(function (resolve, reject) {
+	    dispatch((0, _index.createChild)(values)).then(function (response) {
+	      var data = response.payload.data;
+	      //if any one of these exist, then there is a field error
+	      if (response.payload.status != 200) {
+	        //let other components know of error by updating the redux` state
+	        dispatch((0, _index.createChildFailure)(response.payload));
+	        reject(data); //this is for redux-form itself
+	      } else {
+	          //let other components know that everything is fine by updating the redux` state
+	          dispatch((0, _index.createChildSuccess)(response.payload));
+	          resolve(); //this is for redux-form itself
+	        }
+	    });
+	  });
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    createChild: validateAndCreateChild,
+	    resetMe: function resetMe() {
+	      dispatch((0, _index.resetNewChild)());
+	    }
+	  };
+	};
+
+	function mapStateToProps(state, ownProps) {
+	  return {
+	    newChild: state.children.newChild
+	  };
+	}
+
+	// connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
+	// reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
+	exports.default = (0, _reduxForm.reduxForm)({
+	  form: 'ChildNewForm',
+	  fields: ['name', 'image'],
+	  asyncValidate: asyncValidate,
+	  asyncBlurFields: ['name'],
+	  validate: validate
+	}, mapStateToProps, mapDispatchToProps)(_ChildForm2.default);
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(181);
+
+	var _HeaderContainer = __webpack_require__(304);
+
+	var _HeaderContainer2 = _interopRequireDefault(_HeaderContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ChildForm = function (_Component) {
+	  _inherits(ChildForm, _Component);
+
+	  function ChildForm() {
+	    _classCallCheck(this, ChildForm);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ChildForm).apply(this, arguments));
+	  }
+
+	  _createClass(ChildForm, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      //Important! If your component is navigating based on some global state(from say componentWillReceiveProps)
+	      //always reset that global state back to null when you REMOUNT
+	      this.props.resetMe();
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (nextProps.newChild.child && !nextProps.newChild.error) {
+	        this.context.router.push('/');
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var asyncValidating = _props.asyncValidating;
+	      var _props$fields = _props.fields;
+	      var name = _props$fields.name;
+	      var image = _props$fields.image;
+	      var handleSubmit = _props.handleSubmit;
+	      var submitting = _props.submitting;
+
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'form',
+	          { onSubmit: handleSubmit(this.props.createChild.bind(this)) },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'form-group ' + (name.touched && name.invalid ? 'has-error' : '') },
+	            _react2.default.createElement(
+	              'label',
+	              { className: 'control-label' },
+	              'Name*'
+	            ),
+	            _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control' }, name)),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'help-block' },
+	              name.touched ? name.error : ''
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'help-block' },
+	              asyncValidating === 'name' ? 'validating..' : ''
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'form-group ' + (image.touched && image.invalid ? 'has-error' : '') },
+	            _react2.default.createElement(
+	              'label',
+	              { className: 'control-label' },
+	              'Image URL*'
+	            ),
+	            _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control' }, image)),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'help-block' },
+	              image.touched ? image.error : ''
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { type: 'submit', className: 'btn btn-primary', disabled: submitting },
+	            'Submit'
+	          ),
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/', className: 'btn btn-error' },
+	            'Cancel'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ChildForm;
+	}(_react.Component);
+
+	ChildForm.contextTypes = {
+	  router: _react.PropTypes.object
+	};
+	exports.default = ChildForm;
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _index = __webpack_require__(239);
+
+	var _reactRouter = __webpack_require__(181);
+
+	var _HeaderContainer = __webpack_require__(304);
+
+	var _HeaderContainer2 = _interopRequireDefault(_HeaderContainer);
+
+	var _TaskListContainer = __webpack_require__(312);
+
+	var _TaskListContainer2 = _interopRequireDefault(_TaskListContainer);
+
+	var _TaskFormContainer = __webpack_require__(314);
+
+	var _TaskFormContainer2 = _interopRequireDefault(_TaskFormContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ChildTasks = function (_Component) {
+	  _inherits(ChildTasks, _Component);
+
+	  function ChildTasks() {
+	    _classCallCheck(this, ChildTasks);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ChildTasks).apply(this, arguments));
+	  }
+
+	  _createClass(ChildTasks, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'container' },
+	        _react2.default.createElement(_HeaderContainer2.default, { type: 'tasks_show', postId: this.props.params.id }),
+	        _react2.default.createElement(_TaskListContainer2.default, { id: this.props.params.id }),
+	        _react2.default.createElement(_TaskFormContainer2.default, { id: this.props.params.id })
+	      );
+	    }
+	  }]);
+
+	  return ChildTasks;
+	}(_react.Component);
+
+	ChildTasks.contextTypes = {
+	  router: _react.PropTypes.object
+	};
+	exports.default = ChildTasks;
+
+/***/ },
+/* 312 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _TaskList = __webpack_require__(313);
+
+	var _TaskList2 = _interopRequireDefault(_TaskList);
+
+	var _index = __webpack_require__(239);
+
+	var _reactRedux = __webpack_require__(160);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function mapStateToProps(state, ownProps) {
+	  return { activeTasks: state.children.activeTasks, childId: ownProps.id };
+	}
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    fetchTasks: function fetchTasks(id) {
+	      dispatch((0, _index.fetchTasks)(id)).then(function (data) {
+	        !data.error ? dispatch((0, _index.fetchTasksSuccess)(data.payload)) : dispatch((0, _index.fetchTasksFailure)(data.payload));
+	      });
+	    },
+	    resetMe: function resetMe() {
+	      dispatch((0, _index.resetActiveTasks)());
+	    },
+	    toggleTask: function toggleTask(task_id, childID) {
+	      dispatch((0, _index.toggleTask)(task_id)).then(function (data) {
+	        !data.error ? dispatch((0, _index.toggleTaskSuccess)(data.payload)) : dispatch((0, _index.toggleTaskFailure)(data.payload));
+
+	        dispatch((0, _index.createTransaction)({ id: task_id })).then(function (data) {
+	          !data.error ? dispatch((0, _index.createTransactionSuccess)(data.payload)) : dispatch((0, _index.createTransactionFailure)(data.payload));
+	        });
+
+	        dispatch((0, _index.fetchTasks)(childID)).then(function (data) {
+	          !data.error ? dispatch((0, _index.fetchTasksSuccess)(data.payload)) : dispatch((0, _index.fetchTasksFailure)(data.payload));
+	        });
+	      });
+	    }
+	  };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_TaskList2.default);
+
+/***/ },
+/* 313 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(181);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	//import { connect } from 'react-redux';
+	// import { fetchPost, deletePost } from '../actions/index';
+
+
+	var TaskList = function (_Component) {
+	  _inherits(TaskList, _Component);
+
+	  function TaskList() {
+	    _classCallCheck(this, TaskList);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TaskList).apply(this, arguments));
+	  }
+
+	  _createClass(TaskList, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      //Important! If your component is navigating based on some global state(from say componentWillReceiveProps)
+	      //always reset that global state back to null when you REMOUNT
+	      this.props.resetMe();
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.fetchTasks(this.props.childId);
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (nextProps.activeTasks.error) {
+	        alert('No such child');
+	        this.context.router.push('/');
+	      }
+	    }
+	    // onClick={this.props.toggleTask(task.id)}
+
+	  }, {
+	    key: 'renderTasks',
+	    value: function renderTasks(tasks) {
+	      var _this2 = this;
+
+	      return tasks.map(function (task) {
+	        var boundClick = _this2.props.toggleTask.bind(_this2, task.id, _this2.props.childId);
+	        return _react2.default.createElement(
+	          'li',
+	          { className: 'list-group-item', key: task.id },
+	          task.id,
+	          ' ',
+	          task.task,
+	          '-',
+	          task.value,
+	          '-',
+	          task.completed ? 'complete' : 'not complete',
+	          '-',
+	          _react2.default.createElement('input', { className: 'btn btn-xs', onClick: boundClick, type: 'button', value: 'mark complete' })
+	        );
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var tasks = this.props.activeTasks.tasks;
+
+	      if (!tasks) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          'Loading...'
+	        );
+	      }
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Tasks'
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'list-group' },
+	          this.renderTasks(tasks)
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TaskList;
+	}(_react.Component);
+
+	TaskList.contextTypes = {
+	  router: _react.PropTypes.object
+	};
+	exports.default = TaskList;
+
+/***/ },
+/* 314 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _TaskForm = __webpack_require__(315);
+
+	var _TaskForm2 = _interopRequireDefault(_TaskForm);
+
+	var _index = __webpack_require__(239);
+
+	var _reduxForm = __webpack_require__(257);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//Client side validation
+	function validate(values) {
+	  var errors = {};
+
+	  if (!values.task || values.task.trim() === '') {
+	    errors.task = 'Enter task name';
+	  }
+	  if (!values.value || values.value.trim() === '') {
+	    errors.value = 'Enter value';
+	  }
+
+	  return errors;
+	}
+
+	//For instant async server validation
+	var asyncValidate = function asyncValidate(values, dispatch) {
+	  return new Promise(function (resolve, reject) {
+	    dispatch((0, _index.validateTaskFields)(values)).then(function (response) {
+	      var data = response.payload.data;
+	      //if status is not 200 or any one of the fields exist, then there is a field error
+	      if (response.payload.status != 200 || data.task || data.value) {
+	        //let other components know of error by updating the redux` state
+	        dispatch((0, _index.validateTaskFieldsFailure)(response.payload));
+	        reject(data); //this is for redux-form itself
+	      } else {
+	          //let other components know that everything is fine by updating the redux` state
+	          dispatch((0, _index.validateTaskFieldsSuccess)(response.payload)); //ps: this is same as dispatching RESET_POST_FIELDS
+	          resolve(); //this is for redux-form itself
+	        }
+	    });
+	  });
+	};
+
+	//For any field errors upon submission (i.e. not instant check)
+	var validateAndCreateTask = function validateAndCreateTask(values, dispatch) {
+	  return new Promise(function (resolve, reject) {
+	    dispatch((0, _index.createTask)(values)).then(function (response) {
+	      var data = response.payload.data;
+	      //if any one of these exist, then there is a field error
+	      if (response.payload.status != 200) {
+	        //let other components know of error by updating the redux` state
+	        dispatch((0, _index.createTaskFailure)(response.payload));
+	        reject(data); //this is for redux-form itself
+	      } else {
+	          //let other components know that everything is fine by updating the redux` state
+	          dispatch((0, _index.createTaskSuccess)(response.payload));
+	          resolve(); //this is for redux-form itself
+	          dispatch((0, _index.fetchTasks)(values.child_Id)).then(function (data) {
+	            !data.error ? dispatch((0, _index.fetchTasksSuccess)(data.payload)) : dispatch((0, _index.fetchTasksFailure)(data.payload));
+	          });
+	          dispatch((0, _index.resetTaskFields)());
+	          dispatch((0, _index.resetNewTask)());
+	          dispatch((0, _reduxForm.reset)('TaskNewForm'));
+	        }
+	    });
+	  });
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    createTask: validateAndCreateTask,
+	    resetMe: function resetMe() {
+	      dispatch((0, _index.resetNewTask)());
+	    }
+	  };
+	};
+
+	function mapStateToProps(state, ownProps) {
+	  return {
+	    newTask: state.children.newTask,
+	    child_Id: ownProps.id
+	  };
+	}
+
+	// connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
+	// reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
+	exports.default = (0, _reduxForm.reduxForm)({
+	  form: 'TaskNewForm',
+	  fields: ['task', 'value', 'child_Id'],
+	  asyncValidate: asyncValidate,
+	  asyncBlurFields: ['task'],
+	  validate: validate
+	}, mapStateToProps, mapDispatchToProps)(_TaskForm2.default);
+
+/***/ },
+/* 315 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(181);
+
+	var _HeaderContainer = __webpack_require__(304);
+
+	var _HeaderContainer2 = _interopRequireDefault(_HeaderContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TaskForm = function (_Component) {
+	  _inherits(TaskForm, _Component);
+
+	  function TaskForm() {
+	    _classCallCheck(this, TaskForm);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TaskForm).apply(this, arguments));
+	  }
+
+	  _createClass(TaskForm, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      //Important! If your component is navigating based on some global state(from say componentWillReceiveProps)
+	      //always reset that global state back to null when you REMOUNT
+	      this.props.resetMe();
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.fields.child_Id.onChange(this.props.id);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var asyncValidating = _props.asyncValidating;
+	      var _props$fields = _props.fields;
+	      var task = _props$fields.task;
+	      var value = _props$fields.value;
+	      var child_Id = _props$fields.child_Id;
+	      var handleSubmit = _props.handleSubmit;
+	      var submitting = _props.submitting;
+
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'form',
+	          { onSubmit: handleSubmit(this.props.createTask.bind(this)) },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'form-group ' + (task.touched && task.invalid ? 'has-error' : '') },
+	            _react2.default.createElement(
+	              'label',
+	              { className: 'control-label' },
+	              'Task'
+	            ),
+	            _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control' }, task)),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'help-block' },
+	              task.touched ? task.error : ''
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'help-block' },
+	              asyncValidating === 'task' ? 'validating..' : ''
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'form-group ' + (value.touched && value.invalid ? 'has-error' : '') },
+	            _react2.default.createElement(
+	              'label',
+	              { className: 'control-label' },
+	              'Value'
+	            ),
+	            _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control' }, value)),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'help-block' },
+	              value.touched ? value.error : ''
+	            )
+	          ),
+	          _react2.default.createElement('input', _extends({ type: 'hidden', value: this.props.child_Id, className: 'form-control' }, child_Id)),
+	          _react2.default.createElement(
+	            'button',
+	            { type: 'submit', className: 'btn btn-primary', disabled: submitting },
+	            'Submit'
+	          ),
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/', className: 'btn btn-error' },
+	            'Cancel'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TaskForm;
+	}(_react.Component);
+
+	TaskForm.contextTypes = {
+	  router: _react.PropTypes.object
+	};
+	exports.default = TaskForm;
+
+/***/ },
+/* 316 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _index = __webpack_require__(239);
+
+	var _reactRouter = __webpack_require__(181);
+
+	var _HeaderContainer = __webpack_require__(304);
+
+	var _HeaderContainer2 = _interopRequireDefault(_HeaderContainer);
+
+	var _TransactionListContainer = __webpack_require__(317);
+
+	var _TransactionListContainer2 = _interopRequireDefault(_TransactionListContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ChildTransactions = function (_Component) {
+	  _inherits(ChildTransactions, _Component);
+
+	  function ChildTransactions() {
+	    _classCallCheck(this, ChildTransactions);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ChildTransactions).apply(this, arguments));
+	  }
+
+	  _createClass(ChildTransactions, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'container' },
+	        _react2.default.createElement(_HeaderContainer2.default, { type: 'transactions_show', postId: this.props.params.id }),
+	        _react2.default.createElement(_TransactionListContainer2.default, { id: this.props.params.id })
+	      );
+	    }
+	  }]);
+
+	  return ChildTransactions;
+	}(_react.Component);
+
+	ChildTransactions.contextTypes = {
+	  router: _react.PropTypes.object
+	};
+	exports.default = ChildTransactions;
+
+/***/ },
+/* 317 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _TransactionList = __webpack_require__(318);
+
+	var _TransactionList2 = _interopRequireDefault(_TransactionList);
+
+	var _index = __webpack_require__(239);
+
+	var _reactRedux = __webpack_require__(160);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function mapStateToProps(state, ownProps) {
+	  return { transactions: state.children.transactions, childId: ownProps.id };
+	}
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    fetchTransactions: function fetchTransactions(id) {
+	      dispatch((0, _index.fetchTransactions)(id)).then(function (data) {
+	        !data.error ? dispatch((0, _index.fetchTransactionsSuccess)(data.payload)) : dispatch((0, _index.fetchTransactionsFailure)(data.payload));
+	      });
+	    },
+	    resetMe: function resetMe() {
+	      dispatch((0, _index.resetTransactions)());
+	    }
+	  };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_TransactionList2.default);
+
+/***/ },
+/* 318 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(181);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	//import { connect } from 'react-redux';
+	// import { fetchPost, deletePost } from '../actions/index';
+
+
+	var TransactionList = function (_Component) {
+	  _inherits(TransactionList, _Component);
+
+	  function TransactionList() {
+	    _classCallCheck(this, TransactionList);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TransactionList).apply(this, arguments));
+	  }
+
+	  _createClass(TransactionList, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      //Important! If your component is navigating based on some global state(from say componentWillReceiveProps)
+	      //always reset that global state back to null when you REMOUNT
+	      this.props.resetMe();
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.props.fetchTransactions(this.props.childId);
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (nextProps.transactions.error) {
+	        alert('No such child');
+	        this.context.router.push('/');
+	      }
+	    }
+	  }, {
+	    key: 'renderTransactions',
+	    value: function renderTransactions(transactions) {
+	      return transactions.map(function (transaction) {
+	        return _react2.default.createElement(
+	          'li',
+	          { className: 'list-group-item', key: transaction.id },
+	          transaction.id,
+	          '->',
+	          transaction.date,
+	          '-',
+	          transaction.description,
+	          '-',
+	          transaction.amount
+	        );
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var transactions = this.props.transactions.transactions;
+
+	      if (!transactions) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          'Loading...'
+	        );
+	      }
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          'Transactions'
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'list-group' },
+	          this.renderTransactions(transactions)
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TransactionList;
+	}(_react.Component);
+
+	TransactionList.contextTypes = {
+	  router: _react.PropTypes.object
+	};
+	exports.default = TransactionList;
+
+/***/ },
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30570,7 +32191,7 @@
 
 	exports['default'] = promiseMiddleware;
 
-	var _fluxStandardAction = __webpack_require__(307);
+	var _fluxStandardAction = __webpack_require__(320);
 
 	function isPromise(val) {
 	  return val && typeof val.then === 'function';
@@ -30597,7 +32218,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 307 */
+/* 320 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30608,7 +32229,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodashIsplainobject = __webpack_require__(308);
+	var _lodashIsplainobject = __webpack_require__(321);
 
 	var _lodashIsplainobject2 = _interopRequireDefault(_lodashIsplainobject);
 
@@ -30627,7 +32248,7 @@
 	}
 
 /***/ },
-/* 308 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30638,9 +32259,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFor = __webpack_require__(309),
-	    isArguments = __webpack_require__(310),
-	    keysIn = __webpack_require__(311);
+	var baseFor = __webpack_require__(322),
+	    isArguments = __webpack_require__(323),
+	    keysIn = __webpack_require__(324);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -30736,7 +32357,7 @@
 
 
 /***/ },
-/* 309 */
+/* 322 */
 /***/ function(module, exports) {
 
 	/**
@@ -30790,7 +32411,7 @@
 
 
 /***/ },
-/* 310 */
+/* 323 */
 /***/ function(module, exports) {
 
 	/**
@@ -31039,7 +32660,7 @@
 
 
 /***/ },
-/* 311 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31050,8 +32671,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArguments = __webpack_require__(310),
-	    isArray = __webpack_require__(312);
+	var isArguments = __webpack_require__(323),
+	    isArray = __webpack_require__(325);
 
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -31177,7 +32798,7 @@
 
 
 /***/ },
-/* 312 */
+/* 325 */
 /***/ function(module, exports) {
 
 	/**

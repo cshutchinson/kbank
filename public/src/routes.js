@@ -6,6 +6,7 @@ import ChildIndex from './pages/ChildIndex';
 import ChildNew from './pages/ChildNew';
 import TaskList from './pages/ChildTasks';
 import TransactionList from './pages/ChildTransactions';
+import Home from './pages/Home';
 
 // export default (
 //   <Route path="/main" component={App}>

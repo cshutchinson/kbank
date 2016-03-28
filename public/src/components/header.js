@@ -41,21 +41,21 @@ class Header extends Component {
   	} else if(type === 'tasks_show') {
   			return (
   				<span>
-  			<ul className="nav navbar-nav navbar-left">
-    			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">KBank Home</Link></li>
-          <li style={{paddingRight: '20px'}} role="presentation"><Link to={"/children/transactions/"+this.props.postId}>Transactions</Link></li>
-  			</ul>
-
-    	  </span>
+      			<ul className="nav navbar-nav navbar-left">
+        			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">KBank Home</Link></li>
+        			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/main">Child List</Link></li>
+              <li style={{paddingRight: '20px'}} role="presentation"><Link to={"/children/transactions/"+this.props.postId}>Transactions</Link></li>
+      			</ul>
+  	     </span>
   			);
   	} else if(type === 'transactions_show') {
   			return (
   				<span>
-  			<ul className="nav navbar-nav navbar-left">
-    			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">KBank Home</Link></li>
-          <li style={{paddingRight: '20px'}} role="presentation"><Link to={"/children/tasks/"+this.props.postId}>Tasks</Link></li>
-  			</ul>
-
+      			<ul className="nav navbar-nav navbar-left">
+        			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">KBank Home</Link></li>
+              <li style={{paddingRight: '20px'}} role="presentation"><Link to="/main">Child List</Link></li>
+              <li style={{paddingRight: '20px'}} role="presentation"><Link to={"/children/tasks/"+this.props.postId}>Tasks</Link></li>
+      			</ul>
     	  </span>
   			);
   	}
@@ -64,9 +64,9 @@ class Header extends Component {
 	render() {
 			return (
 			 <nav className="navbar navbar-default navbar-static-top">
-			      <div id="navbar" className="navbar-collapse collapse">
-			      {this.renderLinks()}
-	      		</div>
+		      <div id="navbar" className="navbar-collapse collapse">
+		          {this.renderLinks()}
+      		</div>
 			 </nav>
 			);
 	}

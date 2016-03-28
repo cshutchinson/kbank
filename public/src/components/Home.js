@@ -18,7 +18,7 @@ class Home extends Component {
             </div>
             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
               <ul className="nav navbar-nav">
-                <li><a href="main">Kids <span className="sr-only">(current)</span></a></li>
+                <li><a href="main">Child List<span className="sr-only">(current)</span></a></li>
               </ul>
               <ul className="nav navbar-nav navbar-right">
                 <li><a href="#">Help</a></li>

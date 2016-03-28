@@ -2,3 +2,15 @@
     background: url("../pc.png") no-repeat center center;
     color: white;
 }
+
+.equal{
+    height:250px;
+}
+.col-sm-4, .panel{
+    height:100%;
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 30%;
+    margin-left: 5px;
+    margin-right: 5px;
+}

@@ -6,39 +6,24 @@ class ChildList extends Component {
     this.props.fetchChildren();
   }
 
-  // <div class="panel panel-default">
-  //   <div class="panel-heading">Panel heading</div>
-  //   <div class="panel-body">
-  //     Panel content
-  //   </div>
-  // </div>
-
-  // <li className="list-group-item" key={child.id}>
-  //     <h3 className="list-group-item-heading">{child.name}</h3>
-  //   <Link style={{color:'blue'}} to={"children/tasks/" + child.id}>
-  //     <h4 className="list-group-item">Tasks</h4>
-  //   </Link>
-  //   <Link style={{color:'blue'}} to={"children/transactions/" + child.id}>
-  //     <h4 className="list-group-item">Transactions</h4>
-  //   </Link>
-  // </li>
-
   renderPosts(children) {
     return children.map((child) => {
       return (
-        <div className="panel panel-default col-sm-4 equal" key={child.id}>
+        <div className="panel panel-primary col-sm-4 equal" key={child.id}>
           <div className="panel-heading">{child.name}</div>
           <div className="panel-body">
-            <div className="col-md-8">
-              <Link style={{color:'blue'}} to={"children/tasks/" + child.id}>
-                <p>Tasks</p>
-              </Link>
-              <Link style={{color:'blue'}} to={"children/transactions/" + child.id}>
-                <p>Transactions</p>
-              </Link>
-            </div>
-            <div className="col-md-4">
-              <img src={child.image} width="50"></img>
+            <div className="row">
+              <div className="col-sm-3 col-sm-offset-1 col-xs-3 col-xs-offset-1">
+                <img className="img-circle" src={child.image} width="50"></img>
+              </div>
+              <div className="col-sm-8 col-xs-8">
+                <Link style={{color:'blue'}} to={"children/tasks/" + child.id}>
+                  <p>Tasks</p>
+                </Link>
+                <Link style={{color:'blue'}} to={"children/transactions/" + child.id}>
+                  <p>Transactions</p>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

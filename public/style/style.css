@@ -1,23 +1,4 @@
-.home {
-  text-align: center;
-  color: black;
-  background-image: url('../pc.png');
-  background-size: 100%;
-  background-repeat: no-repeat;
-  height: 900px;
-  font-weight: 700;
-}
-
-.whiteText{
-  color: white;
-}
-
-
-body {
-  margin: -10px
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
+.jumbotron{
+    background: url("../pc.png") no-repeat center center;
+    color: white;
 }

@@ -13,31 +13,28 @@ class Header extends Component {
      this.props.resetMe();
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if(nextProps.deletedPost.error) {
-  //     alert('Could not delete. Please try again.');
-  //   } else if(nextProps.deletedPost.post && !nextProps.deletedPost.error) {
-  //     this.context.router.push('/');
-  //   }
-  // }
-
 	renderLinks() {
 		const { type } = this.props;
 		if(type === 'child_index') {
        return (
+         <div>
+        <ul className="nav navbar-nav navbar-left">
+        	<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">KBank Home</Link></li>
+        </ul>
         <ul className="nav navbar-nav navbar-right">
     			<li style={{paddingRight: '20px'}} role="presentation">
-    				<Link style={{color:'#3385ff',  fontSize: '18px'}} to="/child/new">
+    				<Link to="/child/new">
     				Add Child
   					</Link>
           </li>
   			</ul>
+      </div>
   		 );
   	} else if(type === 'child_new') {
        return (
         <ul className="nav navbar-nav navbar-right">
     			<li style={{paddingRight: '10px'}} role="presentation">
-    				<Link className="text-xs-right" to="/">Back To Index</Link>
+    				<Link className="text-xs-right" to="/">KBank Home</Link>
     			</li>
   			</ul>
   		 );
@@ -45,7 +42,7 @@ class Header extends Component {
   			return (
   				<span>
   			<ul className="nav navbar-nav navbar-left">
-    			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">Back To Index</Link></li>
+    			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">KBank Home</Link></li>
           <li style={{paddingRight: '20px'}} role="presentation"><Link to={"/children/transactions/"+this.props.postId}>Transactions</Link></li>
   			</ul>
 
@@ -55,7 +52,7 @@ class Header extends Component {
   			return (
   				<span>
   			<ul className="nav navbar-nav navbar-left">
-    			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">Back To Index</Link></li>
+    			<li style={{paddingRight: '20px'}} role="presentation"><Link to="/">KBank Home</Link></li>
           <li style={{paddingRight: '20px'}} role="presentation"><Link to={"/children/tasks/"+this.props.postId}>Tasks</Link></li>
   			</ul>
 

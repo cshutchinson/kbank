@@ -32503,7 +32503,7 @@
 	            null,
 	            _react2.default.createElement(
 	              'a',
-	              { href: '\\main', className: 'btn btn-primary btn-med' },
+	              { href: 'main', className: 'btn btn-primary btn-med' },
 	              'Get Started'
 	            )
 	          )
@@ -33360,7 +33360,7 @@
 
 
 	// module
-	exports.push([module.id, ".jumbotron{\n    background: url(" + __webpack_require__(332) + ") no-repeat center center;\n    color: white;\n    text-shadow: 2px 1px black;\n}\n\n.equal{\n    height:350px;\n    box-sizing: border-box;\n}\n\n.col-sm-4, .panel{\n    height:100%;\n    padding-left: 0px;\n    padding-right: 0px;\n}\n", ""]);
+	exports.push([module.id, ".jumbotron{\n    background: url(" + __webpack_require__(332) + ") no-repeat center center;\n    color: white;\n    text-shadow: 2px 1px black;\n}\n\n.equal{\n    height:350px;\n    box-sizing: border-box;\n}\n\n.col-sm-4, .panel{\n    height:100%;\n    padding-left: 0px;\n    padding-right: 0px;\n    margin-left: 5px;\n    box-sizing: border-box;\n    width: 350px;\n}\n", ""]);
 
 	// exports
 

@@ -27,9 +27,11 @@ class TransactionList extends Component {
   renderTransactions(transactions) {
     return transactions.map((transaction) => {
       return (
-        <li className="list-group-item" key={transaction.id}>
-          {transaction.id}->{transaction.date}-{transaction.description}-{transaction.amount}
-        </li>
+        <tr key={transaction.date}>
+          <td>{transaction.date}</td>
+          <td>{transaction.description}</td>
+          <td>{transaction.amount}</td>
+        </tr>
       );
     });
   }
@@ -41,12 +43,18 @@ class TransactionList extends Component {
     }
 
     return (
-      <div>
-        <h1>Transactions</h1>
-        <ul className="list-group">
+      <table className="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
           {this.renderTransactions(transactions)}
-        </ul>
-      </div>
+        </tbody>
+      </table>
     );
   }
 }

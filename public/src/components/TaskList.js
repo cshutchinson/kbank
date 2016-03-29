@@ -9,8 +9,6 @@ class TaskList extends Component {
   };
 
   componentWillMount() {
-    //Important! If your component is navigating based on some global state(from say componentWillReceiveProps)
-    //always reset that global state back to null when you REMOUNT
      this.props.resetMe();
   }
 
@@ -25,17 +23,32 @@ class TaskList extends Component {
     }
   }
 // onClick={this.props.toggleTask(task.id)}
+
+  // renderTasks(tasks) {
+  //   return tasks.map((task) => {
+  //     let boundClick = this.props.toggleTask.bind(this, task.id, this.props.childId);
+  //     return (
+  //       <li className="list-group-item" key={task.id}>
+  //         {task.id} {task.task}-{task.value}-{task.completed ? 'complete' : 'not complete'}-
+  //         <input className="btn btn-xs" onClick={boundClick} type="button" value="mark complete" />
+  //
+  //       </li>
+  //     );
+  //   });
+  // }
+
   renderTasks(tasks) {
     return tasks.map((task) => {
-      let boundClick = this.props.toggleTask.bind(this, task.id, this.props.childId);
-      return (
-        <li className="list-group-item" key={task.id}>
-          {task.id} {task.task}-{task.value}-{task.completed ? 'complete' : 'not complete'}-
-          <input className="btn btn-xs" onClick={boundClick} type="button" value="mark complete" />
-
-        </li>
-      );
-    });
+        let boundClick = this.props.toggleTask.bind(this, task.id, this.props.childId);
+        return (
+          <tr key={task.id}>
+            <td>{task.task}</td>
+            <td>{task.value}</td>
+            <td>{task.completed ? 'Yes' : 'No'}</td>
+            <td><input className="btn btn-primary btn-xs" onClick={boundClick} type="button" value="mark complete" /></td>
+          </tr>
+        );
+      });
   }
 
   render() {
@@ -44,13 +57,29 @@ class TaskList extends Component {
       return <div>Loading...</div>;
     }
 
+    // return (
+    //   <div>
+    //     <h1>Tasks</h1>
+    //     <ul className="list-group">
+    //       {this.renderTasks(tasks)}
+    //     </ul>
+    //   </div>
+    // );
+
     return (
-      <div>
-        <h1>Tasks</h1>
-        <ul className="list-group">
+      <table className="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Value</th>
+            <th>Complete</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
           {this.renderTasks(tasks)}
-        </ul>
-      </div>
+        </tbody>
+      </table>
     );
   }
 }

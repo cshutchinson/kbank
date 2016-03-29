@@ -1,7 +1,7 @@
 .jumbotron{
     background: url("../pc.png") no-repeat center center;
     color: white;
-    text-shadow: 1px 1px black;
+    text-shadow: 2px 1px black;
 }
 
 .equal{

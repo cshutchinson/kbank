@@ -1,5 +1,5 @@
 .jumbotron{
-    background: url("../pc.png") no-repeat center center;
+    background: url("../pc.jpg") no-repeat center center;
     color: white;
     text-shadow: 2px 1px black;
 }
@@ -8,11 +8,9 @@
     height:350px;
     box-sizing: border-box;
 }
+
 .col-sm-4, .panel{
     height:100%;
     padding-left: 0px;
     padding-right: 0px;
-    /*width: 30%;*/
-    /*margin-left: 5px;*/
-    /*margin-right: 5px;*/
 }

@@ -11,9 +11,9 @@ import Home from './pages/Home';
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={Home} />
-    <Route path="main" component={ChildIndex} />
-    <Route path="child/new" component={ChildNew} />
-    <Route path="children/tasks/:id" component={TaskList} />
-    <Route path="children/transactions/:id" component={TransactionList} />
+    <Route path="/main" component={ChildIndex} />
+    <Route path="/child/new" component={ChildNew} />
+    <Route path="/children/tasks/:id" component={TaskList} />
+    <Route path="/children/transactions/:id" component={TransactionList} />
   </Route>
 );

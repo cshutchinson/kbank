@@ -29,7 +29,7 @@ class Home extends Component {
         <div className="jumbotron">
           <h1>KBank</h1>
           <p>Incentivizing the allowance.</p>
-          <p><a href="\main" className="btn btn-primary btn-med">Get Started</a></p>
+          <p><a href="main" className="btn btn-primary btn-med">Get Started</a></p>
         </div>
       </div>
     );

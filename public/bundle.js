@@ -30721,10 +30721,10 @@
 	  _reactRouter.Route,
 	  { path: '/', component: _App2.default },
 	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'main', component: _ChildIndex2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'child/new', component: _ChildNew2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'children/tasks/:id', component: _ChildTasks2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'children/transactions/:id', component: _ChildTransactions2.default })
+	  _react2.default.createElement(_reactRouter.Route, { path: '/main', component: _ChildIndex2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/child/new', component: _ChildNew2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/children/tasks/:id', component: _ChildTasks2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/children/transactions/:id', component: _ChildTransactions2.default })
 	);
 
 /***/ },

@@ -31698,9 +31698,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	//import { connect } from 'react-redux';
-	// import { fetchPost, deletePost } from '../actions/index';
-
 
 	var TaskList = function (_Component) {
 	  _inherits(TaskList, _Component);
@@ -31729,21 +31726,6 @@
 	        this.context.router.push('/');
 	      }
 	    }
-	    // onClick={this.props.toggleTask(task.id)}
-
-	    // renderTasks(tasks) {
-	    //   return tasks.map((task) => {
-	    //     let boundClick = this.props.toggleTask.bind(this, task.id, this.props.childId);
-	    //     return (
-	    //       <li className="list-group-item" key={task.id}>
-	    //         {task.id} {task.task}-{task.value}-{task.completed ? 'complete' : 'not complete'}-
-	    //         <input className="btn btn-xs" onClick={boundClick} type="button" value="mark complete" />
-	    //
-	    //       </li>
-	    //     );
-	    //   });
-	    // }
-
 	  }, {
 	    key: 'renderTasks',
 	    value: function renderTasks(tasks) {
@@ -31789,16 +31771,6 @@
 	          'Loading...'
 	        );
 	      }
-
-	      // return (
-	      //   <div>
-	      //     <h1>Tasks</h1>
-	      //     <ul className="list-group">
-	      //       {this.renderTasks(tasks)}
-	      //     </ul>
-	      //   </div>
-	      // );
-
 	      return _react2.default.createElement(
 	        'table',
 	        { className: 'table table-striped table-hover' },
@@ -32251,15 +32223,23 @@
 	    value: function renderTransactions(transactions) {
 	      return transactions.map(function (transaction) {
 	        return _react2.default.createElement(
-	          'li',
-	          { className: 'list-group-item', key: transaction.id },
-	          transaction.id,
-	          '->',
-	          transaction.date,
-	          '-',
-	          transaction.description,
-	          '-',
-	          transaction.amount
+	          'tr',
+	          { key: transaction.date },
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            transaction.date
+	          ),
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            transaction.description
+	          ),
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            transaction.amount
+	          )
 	        );
 	      });
 	    }
@@ -32277,16 +32257,34 @@
 	      }
 
 	      return _react2.default.createElement(
-	        'div',
-	        null,
+	        'table',
+	        { className: 'table table-striped table-hover' },
 	        _react2.default.createElement(
-	          'h1',
+	          'thead',
 	          null,
-	          'Transactions'
+	          _react2.default.createElement(
+	            'tr',
+	            null,
+	            _react2.default.createElement(
+	              'th',
+	              null,
+	              'Date'
+	            ),
+	            _react2.default.createElement(
+	              'th',
+	              null,
+	              'Description'
+	            ),
+	            _react2.default.createElement(
+	              'th',
+	              null,
+	              'Amount'
+	            )
+	          )
 	        ),
 	        _react2.default.createElement(
-	          'ul',
-	          { className: 'list-group' },
+	          'tbody',
+	          null,
 	          this.renderTransactions(transactions)
 	        )
 	      );
@@ -33360,7 +33358,7 @@
 
 
 	// module
-	exports.push([module.id, ".jumbotron{\n    background: url(" + __webpack_require__(332) + ") no-repeat center center;\n    color: white;\n    text-shadow: 2px 1px black;\n}\n\n.equal{\n    height:200px;\n    box-sizing: border-box;\n}\n\n/*.col-sm-4, panel-primary{\n    height:100%;\n    padding-left: 0px;\n    padding-right: 0px;\n    margin-left: 5px;\n    box-sizing: border-box;\n    width: 350px;\n}*/\n\nul>div.panel {\n    height:100%;\n    padding-left: 0px;\n    padding-right: 0px;\n    margin-left: 25px;\n    box-sizing: border-box;\n    width: 300px;\n}\n", ""]);
+	exports.push([module.id, ".jumbotron{\n    background: url(" + __webpack_require__(332) + ") no-repeat center center;\n    color: white;\n    text-shadow: 2px 1px black;\n}\n\n.equal{\n    height:200px;\n    box-sizing: border-box;\n}\n\nul>div.panel {\n    height:100%;\n    padding-left: 0px;\n    padding-right: 0px;\n    margin-left: 25px;\n    box-sizing: border-box;\n    width: 350px;\n}\n", ""]);
 
 	// exports
 

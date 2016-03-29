@@ -75,7 +75,7 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _reduxPromise = __webpack_require__(319);
+	var _reduxPromise = __webpack_require__(322);
 
 	var _reduxPromise2 = _interopRequireDefault(_reduxPromise);
 
@@ -30708,12 +30708,17 @@
 
 	var _ChildTransactions2 = _interopRequireDefault(_ChildTransactions);
 
+	var _Home = __webpack_require__(319);
+
+	var _Home2 = _interopRequireDefault(_Home);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = _react2.default.createElement(
 	  _reactRouter.Route,
 	  { path: '/', component: _App2.default },
-	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _ChildIndex2.default }),
+	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'main', component: _ChildIndex2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'child/new', component: _ChildNew2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'children/tasks/:id', component: _ChildTasks2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'children/transactions/:id', component: _ChildTransactions2.default })
@@ -30913,15 +30918,6 @@
 	      //always reset that global state back to null when you REMOUNT
 	      this.props.resetMe();
 	    }
-
-	    // componentWillReceiveProps(nextProps) {
-	    //   if(nextProps.deletedPost.error) {
-	    //     alert('Could not delete. Please try again.');
-	    //   } else if(nextProps.deletedPost.post && !nextProps.deletedPost.error) {
-	    //     this.context.router.push('/');
-	    //   }
-	    // }
-
 	  }, {
 	    key: 'renderLinks',
 	    value: function renderLinks() {
@@ -30929,15 +30925,32 @@
 
 	      if (type === 'child_index') {
 	        return _react2.default.createElement(
-	          'ul',
-	          { className: 'nav navbar-nav navbar-right' },
+	          'div',
+	          null,
 	          _react2.default.createElement(
-	            'li',
-	            { style: { paddingRight: '20px' }, role: 'presentation' },
+	            'ul',
+	            { className: 'nav navbar-nav navbar-left' },
 	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { style: { color: '#3385ff', fontSize: '18px' }, to: '/child/new' },
-	              'Add Child'
+	              'li',
+	              { style: { paddingRight: '20px' }, role: 'presentation' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/' },
+	                'KBank Home'
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'ul',
+	            { className: 'nav navbar-nav navbar-right' },
+	            _react2.default.createElement(
+	              'li',
+	              { style: { paddingRight: '20px' }, role: 'presentation' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/child/new' },
+	                'Add Child'
+	              )
 	            )
 	          )
 	        );
@@ -30951,7 +30964,7 @@
 	            _react2.default.createElement(
 	              _reactRouter.Link,
 	              { className: 'text-xs-right', to: '/' },
-	              'Back To Index'
+	              'KBank Home'
 	            )
 	          )
 	        );
@@ -30968,7 +30981,16 @@
 	              _react2.default.createElement(
 	                _reactRouter.Link,
 	                { to: '/' },
-	                'Back To Index'
+	                'KBank Home'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { style: { paddingRight: '20px' }, role: 'presentation' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/main' },
+	                'Child List'
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -30995,7 +31017,16 @@
 	              _react2.default.createElement(
 	                _reactRouter.Link,
 	                { to: '/' },
-	                'Back To Index'
+	                'KBank Home'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { style: { paddingRight: '20px' }, role: 'presentation' },
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: '/main' },
+	                'Child List'
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -31116,38 +31147,51 @@
 	    value: function componentWillMount() {
 	      this.props.fetchChildren();
 	    }
-	    // <Link style={{color:'black'}} to={"child/" + child.id}>
-	    //   <h3 className="list-group-item-heading">{child.name}</h3>
-	    // </Link>
-
 	  }, {
 	    key: 'renderPosts',
 	    value: function renderPosts(children) {
 	      return children.map(function (child) {
 	        return _react2.default.createElement(
-	          'li',
-	          { className: 'list-group-item', key: child.id },
+	          'div',
+	          { className: 'panel panel-primary col-sm-4 equal', key: child.id },
 	          _react2.default.createElement(
-	            'h3',
-	            { className: 'list-group-item-heading' },
+	            'div',
+	            { className: 'panel-heading' },
 	            child.name
 	          ),
 	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { style: { color: 'blue' }, to: "children/tasks/" + child.id },
+	            'div',
+	            { className: 'panel-body' },
 	            _react2.default.createElement(
-	              'h4',
-	              { className: 'list-group-item' },
-	              'Tasks'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { style: { color: 'blue' }, to: "children/transactions/" + child.id },
-	            _react2.default.createElement(
-	              'h4',
-	              { className: 'list-group-item' },
-	              'Transactions'
+	              'div',
+	              { className: 'row' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'col-sm-3 col-sm-offset-1 col-xs-3 col-xs-offset-1' },
+	                _react2.default.createElement('img', { className: 'img-circle', src: child.image, width: '50' })
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'col-sm-8 col-xs-8' },
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  { style: { color: 'blue' }, to: "children/tasks/" + child.id },
+	                  _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Tasks'
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  _reactRouter.Link,
+	                  { style: { color: 'blue' }, to: "children/transactions/" + child.id },
+	                  _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    'Transactions'
+	                  )
+	                )
+	              )
 	            )
 	          )
 	        );
@@ -31539,8 +31583,29 @@
 	        'div',
 	        { className: 'container' },
 	        _react2.default.createElement(_HeaderContainer2.default, { type: 'tasks_show', postId: this.props.params.id }),
-	        _react2.default.createElement(_TaskListContainer2.default, { id: this.props.params.id }),
-	        _react2.default.createElement(_TaskFormContainer2.default, { id: this.props.params.id })
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-sm-7' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'panel panel-primary' },
+	              _react2.default.createElement(_TaskListContainer2.default, { id: this.props.params.id })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-sm-5' },
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              'Add A New Task'
+	            ),
+	            _react2.default.createElement(_TaskFormContainer2.default, { id: this.props.params.id })
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -31646,8 +31711,6 @@
 	  _createClass(TaskList, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      //Important! If your component is navigating based on some global state(from say componentWillReceiveProps)
-	      //always reset that global state back to null when you REMOUNT
 	      this.props.resetMe();
 	    }
 	  }, {
@@ -31665,6 +31728,19 @@
 	    }
 	    // onClick={this.props.toggleTask(task.id)}
 
+	    // renderTasks(tasks) {
+	    //   return tasks.map((task) => {
+	    //     let boundClick = this.props.toggleTask.bind(this, task.id, this.props.childId);
+	    //     return (
+	    //       <li className="list-group-item" key={task.id}>
+	    //         {task.id} {task.task}-{task.value}-{task.completed ? 'complete' : 'not complete'}-
+	    //         <input className="btn btn-xs" onClick={boundClick} type="button" value="mark complete" />
+	    //
+	    //       </li>
+	    //     );
+	    //   });
+	    // }
+
 	  }, {
 	    key: 'renderTasks',
 	    value: function renderTasks(tasks) {
@@ -31673,17 +31749,28 @@
 	      return tasks.map(function (task) {
 	        var boundClick = _this2.props.toggleTask.bind(_this2, task.id, _this2.props.childId);
 	        return _react2.default.createElement(
-	          'li',
-	          { className: 'list-group-item', key: task.id },
-	          task.id,
-	          ' ',
-	          task.task,
-	          '-',
-	          task.value,
-	          '-',
-	          task.completed ? 'complete' : 'not complete',
-	          '-',
-	          _react2.default.createElement('input', { className: 'btn btn-xs', onClick: boundClick, type: 'button', value: 'mark complete' })
+	          'tr',
+	          { key: task.id },
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            task.task
+	          ),
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            task.value
+	          ),
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            task.completed ? 'Yes' : 'No'
+	          ),
+	          _react2.default.createElement(
+	            'td',
+	            null,
+	            _react2.default.createElement('input', { className: 'btn btn-primary btn-xs', onClick: boundClick, type: 'button', value: 'mark complete' })
+	          )
 	        );
 	      });
 	    }
@@ -31700,17 +31787,49 @@
 	        );
 	      }
 
+	      // return (
+	      //   <div>
+	      //     <h1>Tasks</h1>
+	      //     <ul className="list-group">
+	      //       {this.renderTasks(tasks)}
+	      //     </ul>
+	      //   </div>
+	      // );
+
 	      return _react2.default.createElement(
-	        'div',
-	        null,
+	        'table',
+	        { className: 'table table-striped table-hover' },
 	        _react2.default.createElement(
-	          'h1',
+	          'thead',
 	          null,
-	          'Tasks'
+	          _react2.default.createElement(
+	            'tr',
+	            null,
+	            _react2.default.createElement(
+	              'th',
+	              null,
+	              'Task'
+	            ),
+	            _react2.default.createElement(
+	              'th',
+	              null,
+	              'Value'
+	            ),
+	            _react2.default.createElement(
+	              'th',
+	              null,
+	              'Complete'
+	            ),
+	            _react2.default.createElement(
+	              'th',
+	              null,
+	              'Action'
+	            )
+	          )
 	        ),
 	        _react2.default.createElement(
-	          'ul',
-	          { className: 'list-group' },
+	          'tbody',
+	          null,
 	          this.renderTasks(tasks)
 	        )
 	      );
@@ -32185,13 +32304,229 @@
 
 	'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _HomeContainer = __webpack_require__(320);
+
+	var _HomeContainer2 = _interopRequireDefault(_HomeContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Home = function (_Component) {
+	  _inherits(Home, _Component);
+
+	  function Home() {
+	    _classCallCheck(this, Home);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Home).apply(this, arguments));
+	  }
+
+	  _createClass(Home, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'container' },
+	        _react2.default.createElement(_HomeContainer2.default, null)
+	      );
+	    }
+	  }]);
+
+	  return Home;
+	}(_react.Component);
+
+	exports.default = Home;
+
+/***/ },
+/* 320 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(160);
+
+	var _Home = __webpack_require__(321);
+
+	var _Home2 = _interopRequireDefault(_Home);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function mapStateToProps(state) {
+	  return {
+	    // deletedPost: state.posts.deletedPost
+	  };
+	}
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
+	  return {};
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Home2.default);
+
+/***/ },
+/* 321 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(181);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Home = function (_Component) {
+	  _inherits(Home, _Component);
+
+	  function Home() {
+	    _classCallCheck(this, Home);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Home).apply(this, arguments));
+	  }
+
+	  _createClass(Home, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {}
+	  }, {
+	    key: 'render',
+	    value: function render() {
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'nav',
+	          { className: 'navbar navbar-default' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'container-fluid' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'navbar-header' },
+	              _react2.default.createElement(
+	                'a',
+	                { className: 'navbar-brand', href: '#' },
+	                'KBank'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'collapse navbar-collapse', id: 'bs-example-navbar-collapse-2' },
+	              _react2.default.createElement(
+	                'ul',
+	                { className: 'nav navbar-nav' },
+	                _react2.default.createElement(
+	                  'li',
+	                  null,
+	                  _react2.default.createElement(
+	                    'a',
+	                    { href: 'main' },
+	                    'Child List',
+	                    _react2.default.createElement(
+	                      'span',
+	                      { className: 'sr-only' },
+	                      '(current)'
+	                    )
+	                  )
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'ul',
+	                { className: 'nav navbar-nav navbar-right' },
+	                _react2.default.createElement(
+	                  'li',
+	                  null,
+	                  _react2.default.createElement(
+	                    'a',
+	                    { href: '#' },
+	                    'Help'
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'jumbotron' },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'KBank'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Incentivizing the allowance.'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            _react2.default.createElement(
+	              'a',
+	              { href: '\\main', className: 'btn btn-primary btn-med' },
+	              'Get Started'
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Home;
+	}(_react.Component);
+
+	exports.default = Home;
+
+/***/ },
+/* 322 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	exports.__esModule = true;
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	exports['default'] = promiseMiddleware;
 
-	var _fluxStandardAction = __webpack_require__(320);
+	var _fluxStandardAction = __webpack_require__(323);
 
 	function isPromise(val) {
 	  return val && typeof val.then === 'function';
@@ -32218,7 +32553,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 320 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32229,7 +32564,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodashIsplainobject = __webpack_require__(321);
+	var _lodashIsplainobject = __webpack_require__(324);
 
 	var _lodashIsplainobject2 = _interopRequireDefault(_lodashIsplainobject);
 
@@ -32248,7 +32583,7 @@
 	}
 
 /***/ },
-/* 321 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32259,9 +32594,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFor = __webpack_require__(322),
-	    isArguments = __webpack_require__(323),
-	    keysIn = __webpack_require__(324);
+	var baseFor = __webpack_require__(325),
+	    isArguments = __webpack_require__(326),
+	    keysIn = __webpack_require__(327);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -32357,7 +32692,7 @@
 
 
 /***/ },
-/* 322 */
+/* 325 */
 /***/ function(module, exports) {
 
 	/**
@@ -32411,7 +32746,7 @@
 
 
 /***/ },
-/* 323 */
+/* 326 */
 /***/ function(module, exports) {
 
 	/**
@@ -32660,7 +32995,7 @@
 
 
 /***/ },
-/* 324 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32671,8 +33006,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArguments = __webpack_require__(323),
-	    isArray = __webpack_require__(325);
+	var isArguments = __webpack_require__(326),
+	    isArray = __webpack_require__(328);
 
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -32798,7 +33133,7 @@
 
 
 /***/ },
-/* 325 */
+/* 328 */
 /***/ function(module, exports) {
 
 	/**

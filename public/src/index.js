@@ -6,8 +6,8 @@ import { Router, browserHistory } from 'react-router';
 import reducers from './reducers';
 import routes from './routes';
 import promise from 'redux-promise';
-// require('../style/style.css');
-// require('../pc.jpg');
+require('../style/style.css');
+require('../pc.jpg');
 
 
 const logger = store => next => action => {

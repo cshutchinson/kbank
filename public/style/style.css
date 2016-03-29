@@ -9,15 +9,6 @@
     box-sizing: border-box;
 }
 
-/*.col-sm-4, panel-primary{
-    height:100%;
-    padding-left: 0px;
-    padding-right: 0px;
-    margin-left: 5px;
-    box-sizing: border-box;
-    width: 350px;
-}*/
-
 ul>div.panel {
     height:100%;
     padding-left: 0px;

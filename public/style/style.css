@@ -13,4 +13,7 @@
     height:100%;
     padding-left: 0px;
     padding-right: 0px;
+    margin-left: 5px;
+    box-sizing: border-box;
+    width: 350px;
 }

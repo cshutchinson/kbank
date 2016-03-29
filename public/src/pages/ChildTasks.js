@@ -15,8 +15,17 @@ class ChildTasks extends Component {
     return (
       <div className='container'>
         <Header type="tasks_show" postId={this.props.params.id}/>
-        <TaskListContainer id={this.props.params.id}/>
-        <TaskFormContainer id={this.props.params.id}/>
+        <div className="row">
+          <div className="col-sm-7">
+            <div className="panel panel-primary">
+              <TaskListContainer id={this.props.params.id}/>
+            </div>
+          </div>
+          <div className="col-sm-5">
+              <p>Add A New Task</p>
+              <TaskFormContainer id={this.props.params.id}/>
+          </div>
+        </div>
       </div>
     );
   }

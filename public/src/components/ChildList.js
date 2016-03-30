@@ -6,14 +6,6 @@ class ChildList extends Component {
     this.props.fetchChildren();
   }
 
-  // <div className="col-sm-8 col-xs-8">
-  //   <Link style={{color:'blue'}} to={"children/tasks/" + child.id}>
-  //     <p>Tasks</p>
-  //   </Link>
-  //   <Link style={{color:'blue'}} to={"children/transactions/" + child.id}>
-  //     <p>Transactions</p>
-  //   </Link>
-  // </div>
 
   renderPosts(children) {
     return children.map((child) => {
@@ -23,7 +15,7 @@ class ChildList extends Component {
           <div className="panel-body">
             <div className="row">
               <ul className="nav nav-pills">
-                <li className="col-xs-3 vcenter">
+                <li className="col-xs-3">
                   <img className="img-circle" src={child.image} width="65"></img>
                 </li>
                 <li className="col-xs-4"><a href={"children/tasks/" + child.id}>Open Tasks <span className="badge">{child.taskcount}</span></a></li>

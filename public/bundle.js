@@ -31150,16 +31150,6 @@
 	    value: function componentWillMount() {
 	      this.props.fetchChildren();
 	    }
-
-	    // <div className="col-sm-8 col-xs-8">
-	    //   <Link style={{color:'blue'}} to={"children/tasks/" + child.id}>
-	    //     <p>Tasks</p>
-	    //   </Link>
-	    //   <Link style={{color:'blue'}} to={"children/transactions/" + child.id}>
-	    //     <p>Transactions</p>
-	    //   </Link>
-	    // </div>
-
 	  }, {
 	    key: 'renderPosts',
 	    value: function renderPosts(children) {
@@ -31183,7 +31173,7 @@
 	                { className: 'nav nav-pills' },
 	                _react2.default.createElement(
 	                  'li',
-	                  { className: 'col-xs-3 vcenter' },
+	                  { className: 'col-xs-3' },
 	                  _react2.default.createElement('img', { className: 'img-circle', src: child.image, width: '65' })
 	                ),
 	                _react2.default.createElement(
@@ -31206,42 +31196,6 @@
 	                  _react2.default.createElement(
 	                    'a',
 	                    { href: "children/transactions/" + child.id },
-	                    'Available Balance ',
-	                    _react2.default.createElement(
-	                      'span',
-	                      { className: 'badge' },
-	                      '$ ' + (child.balance > 0 ? child.balance : '0.00')
-	                    )
-	                  )
-	                )
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'row' },
-	              _react2.default.createElement(
-	                'ul',
-	                { className: 'nav nav-pills' },
-	                _react2.default.createElement(
-	                  'li',
-	                  { className: 'col-sm-4 col-sm-offset-1' },
-	                  _react2.default.createElement(
-	                    'a',
-	                    { href: '#' },
-	                    'Open Tasks ',
-	                    _react2.default.createElement(
-	                      'span',
-	                      { className: 'badge' },
-	                      child.taskcount
-	                    )
-	                  )
-	                ),
-	                _react2.default.createElement(
-	                  'li',
-	                  { className: 'col-sm-4' },
-	                  _react2.default.createElement(
-	                    'a',
-	                    { href: '#' },
 	                    'Available Balance ',
 	                    _react2.default.createElement(
 	                      'span',

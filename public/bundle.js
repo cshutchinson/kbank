@@ -31195,6 +31195,42 @@
 	                  )
 	                )
 	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'row' },
+	              _react2.default.createElement(
+	                'ul',
+	                { className: 'nav nav-pills' },
+	                _react2.default.createElement(
+	                  'li',
+	                  { className: 'col-sm-4 col-sm-offset-1' },
+	                  _react2.default.createElement(
+	                    'a',
+	                    { href: '#' },
+	                    'Open Tasks ',
+	                    _react2.default.createElement(
+	                      'span',
+	                      { className: 'badge' },
+	                      child.taskcount
+	                    )
+	                  )
+	                ),
+	                _react2.default.createElement(
+	                  'li',
+	                  { className: 'col-sm-4' },
+	                  _react2.default.createElement(
+	                    'a',
+	                    { href: '#' },
+	                    'Available Balance ',
+	                    _react2.default.createElement(
+	                      'span',
+	                      { className: 'badge' },
+	                      '$ ' + (child.balance > 0 ? child.balance : '0.00')
+	                    )
+	                  )
+	                )
+	              )
 	            )
 	          )
 	        );

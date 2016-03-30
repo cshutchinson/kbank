@@ -31174,7 +31174,7 @@
 	                _react2.default.createElement(
 	                  'li',
 	                  { className: 'col-xs-3' },
-	                  _react2.default.createElement('img', { className: 'img-circle', src: child.image, width: '65' })
+	                  _react2.default.createElement('img', { className: 'img-thumbnail', src: child.image, width: '75' })
 	                ),
 	                _react2.default.createElement(
 	                  'li',
@@ -33368,7 +33368,7 @@
 
 
 	// module
-	exports.push([module.id, ".jumbotron{\n    background: url(" + __webpack_require__(332) + ") no-repeat center center;\n    color: white;\n    text-shadow: 2px 1px black;\n}\n\n.equal{\n    height:200px;\n    box-sizing: border-box;\n}\n\nul>div.panel {\n    height:100%;\n    padding-left: 0px;\n    padding-right: 0px;\n    margin-left: 25px;\n    box-sizing: border-box;\n    width: 350px;\n}\n\n.vcenter {\n    display: inline-block;\n    vertical-align: bottom;\n    float: none;\n}\n", ""]);
+	exports.push([module.id, ".jumbotron{\n    background: url(" + __webpack_require__(332) + ") no-repeat center center;\n    color: white;\n    text-shadow: 2px 1px black;\n}\n\n.equal{\n    height:200px;\n    box-sizing: border-box;\n}\n\nul>div.panel {\n    height:100%;\n    padding-left: 0px;\n    padding-right: 0px;\n    margin-left: 25px;\n    box-sizing: border-box;\n    width: 350px;\n    background-color: #f5f5f5;\n    border-bottom-color: black;\n    border-right-color: black;\n}\n\n.vcenter {\n    display: inline-block;\n    vertical-align: bottom;\n    float: none;\n}\n", ""]);
 
 	// exports
 

@@ -4,8 +4,18 @@ var knex = require('../db/knex');
 
 /* GET home page. */
 router.get('/children', function(req, res, next) {
-  knex('children').where('user_id', 1).then(function(results){
-    res.json(results);
+  // select children.id, children.name, (select sum(transactions.amount) from transactions where transactions.child_id =
+  // children.id) as balance, (select count(tasks.id) from tasks where tasks.child_id = children.id and tasks.completed=false) as
+  //  taskcount
+  // from children
+  // left join transactions
+  // on children.id = transactions.child_id
+  // left join tasks
+  // on children.id = tasks.child_id
+  // group by children.id order by children.id;
+  knex.raw('select children.id, children.image, children.name, (select sum(transactions.amount) from transactions where transactions.child_id = children.id) as balance, (select count(tasks.id) from tasks where tasks.child_id = children.id and tasks.completed=false) as taskcount from children left join transactions on children.id = transactions.child_id left join tasks on children.id = tasks.child_id group by children.id order by children.id;')
+  .then(function(results){
+    res.json(results.rows);
   });
 });
 
@@ -101,5 +111,7 @@ router.post('/createTransaction', function(req, res){
     });
   })
 })
+
+
 
 module.exports = router;

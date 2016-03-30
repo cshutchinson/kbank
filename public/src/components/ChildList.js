@@ -12,6 +12,7 @@ class ChildList extends Component {
         <div className="panel panel-primary col-sm-4 equal" key={child.id}>
           <div className="panel-heading">{child.name}</div>
           <div className="panel-body">
+
             <div className="row">
               <div className="col-sm-3 col-sm-offset-1 col-xs-3 col-xs-offset-1">
                 <img className="img-circle" src={child.image} width="50"></img>
@@ -24,6 +25,12 @@ class ChildList extends Component {
                   <p>Transactions</p>
                 </Link>
               </div>
+            </div>
+            <div className="row">
+              <ul className="nav nav-pills">
+                <li className="col-sm-4 col-sm-offset-1"><a href="#">Open Tasks <span className="badge">{child.taskcount}</span></a></li>
+                <li className="col-sm-4"><a href="#">Available Balance <span className="badge">{'$ ' + (child.balance > 0 ? child.balance : '0.00')}</span></a></li>
+              </ul>
             </div>
           </div>
         </div>

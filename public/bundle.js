@@ -31150,6 +31150,16 @@
 	    value: function componentWillMount() {
 	      this.props.fetchChildren();
 	    }
+
+	    // <div className="col-sm-8 col-xs-8">
+	    //   <Link style={{color:'blue'}} to={"children/tasks/" + child.id}>
+	    //     <p>Tasks</p>
+	    //   </Link>
+	    //   <Link style={{color:'blue'}} to={"children/transactions/" + child.id}>
+	    //     <p>Transactions</p>
+	    //   </Link>
+	    // </div>
+
 	  }, {
 	    key: 'renderPosts',
 	    value: function renderPosts(children) {
@@ -31169,29 +31179,39 @@
 	              'div',
 	              { className: 'row' },
 	              _react2.default.createElement(
-	                'div',
-	                { className: 'col-sm-3 col-sm-offset-1 col-xs-3 col-xs-offset-1' },
-	                _react2.default.createElement('img', { className: 'img-circle', src: child.image, width: '50' })
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'col-sm-8 col-xs-8' },
+	                'ul',
+	                { className: 'nav nav-pills' },
 	                _react2.default.createElement(
-	                  _reactRouter.Link,
-	                  { style: { color: 'blue' }, to: "children/tasks/" + child.id },
+	                  'li',
+	                  { className: 'col-xs-3 vcenter' },
+	                  _react2.default.createElement('img', { className: 'img-circle', src: child.image, width: '65' })
+	                ),
+	                _react2.default.createElement(
+	                  'li',
+	                  { className: 'col-xs-4' },
 	                  _react2.default.createElement(
-	                    'p',
-	                    null,
-	                    'Tasks'
+	                    'a',
+	                    { href: "children/tasks/" + child.id },
+	                    'Open Tasks ',
+	                    _react2.default.createElement(
+	                      'span',
+	                      { className: 'badge' },
+	                      child.taskcount
+	                    )
 	                  )
 	                ),
 	                _react2.default.createElement(
-	                  _reactRouter.Link,
-	                  { style: { color: 'blue' }, to: "children/transactions/" + child.id },
+	                  'li',
+	                  { className: 'col-xs-4' },
 	                  _react2.default.createElement(
-	                    'p',
-	                    null,
-	                    'Transactions'
+	                    'a',
+	                    { href: "children/transactions/" + child.id },
+	                    'Available Balance ',
+	                    _react2.default.createElement(
+	                      'span',
+	                      { className: 'badge' },
+	                      '$ ' + (child.balance > 0 ? child.balance : '0.00')
+	                    )
 	                  )
 	                )
 	              )
@@ -33358,7 +33378,7 @@
 
 
 	// module
-	exports.push([module.id, ".jumbotron{\n    background: url(" + __webpack_require__(332) + ") no-repeat center center;\n    color: white;\n    text-shadow: 2px 1px black;\n}\n\n.equal{\n    height:200px;\n    box-sizing: border-box;\n}\n\nul>div.panel {\n    height:100%;\n    padding-left: 0px;\n    padding-right: 0px;\n    margin-left: 25px;\n    box-sizing: border-box;\n    width: 350px;\n}\n", ""]);
+	exports.push([module.id, ".jumbotron{\n    background: url(" + __webpack_require__(332) + ") no-repeat center center;\n    color: white;\n    text-shadow: 2px 1px black;\n}\n\n.equal{\n    height:200px;\n    box-sizing: border-box;\n}\n\nul>div.panel {\n    height:100%;\n    padding-left: 0px;\n    padding-right: 0px;\n    margin-left: 25px;\n    box-sizing: border-box;\n    width: 350px;\n}\n\n.vcenter {\n    display: inline-block;\n    vertical-align: bottom;\n    float: none;\n}\n", ""]);
 
 	// exports
 

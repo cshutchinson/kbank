@@ -17,3 +17,9 @@ ul>div.panel {
     box-sizing: border-box;
     width: 350px;
 }
+
+.vcenter {
+    display: inline-block;
+    vertical-align: bottom;
+    float: none;
+}

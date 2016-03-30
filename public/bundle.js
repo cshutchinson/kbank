@@ -31181,7 +31181,7 @@
 	                  { className: 'col-xs-4' },
 	                  _react2.default.createElement(
 	                    'a',
-	                    { href: "children/tasks/" + child.id },
+	                    { href: "/children/tasks/" + child.id },
 	                    'Open Tasks ',
 	                    _react2.default.createElement(
 	                      'span',
@@ -31195,7 +31195,7 @@
 	                  { className: 'col-xs-4' },
 	                  _react2.default.createElement(
 	                    'a',
-	                    { href: "children/transactions/" + child.id },
+	                    { href: "/children/transactions/" + child.id },
 	                    'Available Balance ',
 	                    _react2.default.createElement(
 	                      'span',

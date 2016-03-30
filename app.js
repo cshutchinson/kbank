@@ -37,6 +37,9 @@ app.use('/api', children);
 app.use(express.static(staticPath));
 app.use('/', express.static(staticPath));
 app.use('/main', express.static(staticPath));
+app.use('/children/tasks/:id', express.static(staticPath));
+app.use('/children/transactions/:id', express.static(staticPath));
+
 
 
 

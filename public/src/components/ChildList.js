@@ -18,8 +18,8 @@ class ChildList extends Component {
                 <li className="col-xs-3">
                   <img className="img-circle" src={child.image} width="65"></img>
                 </li>
-                <li className="col-xs-4"><a href={"children/tasks/" + child.id}>Open Tasks <span className="badge">{child.taskcount}</span></a></li>
-                <li className="col-xs-4"><a href={"children/transactions/" + child.id}>Available Balance <span className="badge">{'$ ' + (child.balance > 0 ? child.balance : '0.00')}</span></a></li>
+                <li className="col-xs-4"><a href={"/children/tasks/" + child.id}>Open Tasks <span className="badge">{child.taskcount}</span></a></li>
+                <li className="col-xs-4"><a href={"/children/transactions/" + child.id}>Available Balance <span className="badge">{'$ ' + (child.balance > 0 ? child.balance : '0.00')}</span></a></li>
               </ul>
             </div>
           </div>

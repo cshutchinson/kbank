@@ -17,8 +17,8 @@ ul>div.panel {
     box-sizing: border-box;
     width: 350px;
     background-color: #f5f5f5;
-    border-bottom-color: black;
-    border-right-color: black;
+    /*border-bottom-color: black;
+    border-right-color: black;*/
 }
 
 .vcenter {

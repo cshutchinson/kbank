@@ -4,6 +4,7 @@ import { fetchTransactions } from '../actions/index';
 import { Link } from 'react-router';
 import Header from '../containers/HeaderContainer.js';
 import TransactionListContainer from '../containers/TransactionListContainer.js';
+import TransactionFormContainer from '../containers/TransactionFormContainer.js';
 
 class ChildTransactions extends Component {
   static contextTypes = {
@@ -14,7 +15,17 @@ class ChildTransactions extends Component {
     return (
       <div className='container'>
         <Header type="transactions_show" postId={this.props.params.id}/>
-        <TransactionListContainer id={this.props.params.id}/>
+        <div className="row">
+          <div className="col-sm-7">
+            <div className="panel panel-primary">
+              <TransactionListContainer id={this.props.params.id}/>
+            </div>
+          </div>
+          <div className="col-sm-5">
+            <p>Add A New Transaction</p>
+            <TransactionFormContainer id={this.props.params.id}/>
+          </div>
+        </div>
       </div>
     );
   }

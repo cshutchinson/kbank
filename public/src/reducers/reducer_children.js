@@ -5,7 +5,9 @@ import {
 	VALIDATE_TASK_FIELDS,VALIDATE_TASK_FIELDS_SUCCESS, VALIDATE_TASK_FIELDS_FAILURE, RESET_TASK_FIELDS,
 	FETCH_TASKS, FETCH_TASKS_SUCCESS,  FETCH_TASKS_FAILURE, RESET_ACTIVE_TASKS,
 	VALIDATE_CHILD_FIELDS,VALIDATE_CHILD_FIELDS_SUCCESS, VALIDATE_CHILD_FIELDS_FAILURE, RESET_CHILD_FIELDS,
-	FETCH_TRANSACTIONS, FETCH_TRANSACTIONS_SUCCESS,  FETCH_TRANSACTIONS_FAILURE, RESET_TRANSACTIONS
+	FETCH_TRANSACTIONS, FETCH_TRANSACTIONS_SUCCESS,  FETCH_TRANSACTIONS_FAILURE, RESET_TRANSACTIONS,
+	CREATE_TRANSACTION, CREATE_TRANSACTION_SUCCESS, CREATE_TRANSACTION_FAILURE, RESET_NEW_TRANSACTION,
+	VALIDATE_TRANSACTION_FIELDS,VALIDATE_TRANSACTION_FIELDS_SUCCESS, VALIDATE_TRANSACTION_FIELDS_FAILURE, RESET_TRANSACTION_FIELDS
 
 } from '../actions/index';
 
@@ -87,6 +89,27 @@ export default function(state = INITIAL_STATE, action) {
     return { ...state, transactions: {transactions: null, error:action.payload.data, loading:false}};
   case RESET_TRANSACTIONS:
     return { ...state, transactions: {transactions: null, error:null, loading: false}};
+
+	case CREATE_TRANSACTION:
+  	return {...state, newTransaction: {...state.newTransaction, loading: true}}
+  case CREATE_TRANSACTION_SUCCESS:
+  	return {...state, newTransaction: {transaction:action.payload, error:null, loading: false}}
+  case CREATE_TRANSACTION_FAILURE:
+  	return {...state, newTransaction: {transaction:null, error:action.payload.data, loading: false}}
+  case RESET_NEW_TRANSACTION:
+  	return {...state, newTransaction: {transaction:null, error:null, loading: false}}
+
+	case VALIDATE_TRANSACTION_FIELDS:
+	    return {...state, newTransaction:{...state.newTransaction, error: null, loading: true}}
+  case VALIDATE_TRANSACTION_FIELDS_SUCCESS:
+    return {...state, newTransaction:{...state.newTransaction, error: null, loading: false}}
+  case VALIDATE_TRANSACTION_FIELDS_FAILURE:
+    let resultTransaction = action.payload.data;
+    let errorTransaction = {transaction: resultTransaction.transaction, amount: resultTransaction.amount};
+    return {...state, newTransaction:{...state.newTransaction, error: errorTask, loading: false}}
+  case RESET_TRANSACTION_FIELDS:
+    return {...state, newTransaction:{...state.newTransaction,transaction: null, error: null, loading: null}}
+
 
   default:
     return state;

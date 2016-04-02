@@ -45,11 +45,16 @@ export const FETCH_TRANSACTIONS_SUCCESS = 'FETCH_TRANSACTIONS_SUCCESS';
 export const FETCH_TRANSACTIONS_FAILURE = 'FETCH_TRANSACTIONS_FAILURE';
 export const RESET_TRANSACTIONS = 'RESET_TRANSACTIONS';
 
-// create transaction when task marked complete
+// create transaction when task marked complete or manual entry
 export const CREATE_TRANSACTION = 'CREATE_TRANSACTION';
 export const CREATE_TRANSACTION_SUCCESS = 'CREATE_TRANSACTION_SUCCESS';
 export const CREATE_TRANSACTION_FAILURE = 'CREATE_TRANSACTION_FAILURE';
 export const RESET_NEW_TRANSACTION = 'RESET_NEW_TRANSACTION';
+
+export const VALIDATE_TRANSACTION_FIELDS = 'VALIDATE_TRANSACTION_FIELDS';
+export const VALIDATE_TRANSACTION_FIELDS_SUCCESS = 'VALIDATE_TRANSACTION_FIELDS_SUCCESS';
+export const VALIDATE_TRANSACTION_FIELDS_FAILURE = 'VALIDATE_TRANSACTION_FIELDS_FAILURE';
+export const RESET_TRANSACTION_FIELDS = 'RESET_TRANSACTION_FIELDS';
 
 const ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost:3000/api' : '/api';
 export function fetchChildren() {
@@ -272,7 +277,7 @@ export function resetTaskFields() {
 };
 
 export function createTransaction(props){
-  const request = axios.post(`${ROOT_URL}/createTransaction`, props);
+  const request = axios.post(`${ROOT_URL}/createManualTransaction`, props);
 
   return {
     type: CREATE_TRANSACTION,
@@ -297,5 +302,33 @@ export function createTransactionFailure(error) {
 export function resetNewTransaction() {
   return {
     type: RESET_NEW_TRANSACTION
+  }
+};
+
+export function validateTransactionFields(props) {
+  const request = axios.post(`${ROOT_URL}/validateTransactionFields`, props);
+
+  return {
+    type: VALIDATE_TRANSACTION_FIELDS,
+    payload: request
+  };
+}
+
+export function validateTransactionFieldsSuccess() {
+  return {
+    type: VALIDATE_TRANSACTION_FIELDS_SUCCESS
+  };
+}
+
+export function validateTransactionFieldsFailure(error) {
+  return {
+    type: VALIDATE_TRANSACTION_FIELDS_FAILURE,
+    payload: error
+  };
+}
+
+export function resetTransactionFields() {
+  return {
+    type: RESET_TRANSACTION_FIELDS
   }
 };

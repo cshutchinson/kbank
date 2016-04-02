@@ -71,6 +71,14 @@ router.post('/validateTaskFields', function(req, res){
   }
 })
 
+router.post('/validateTransactionFields', function(req, res){
+  var body = req.body;
+  var transaction = body.transaction ? body.transaction.trim() : '';
+  if (transaction){
+    res.json({});
+  }
+})
+
 router.post('/newTask', function(req, res){
   var newTask = {
     child_id: req.body.child_Id,
@@ -110,6 +118,22 @@ router.post('/createTransaction', function(req, res){
       res.json({});
     });
   })
+})
+
+router.post('/createManualTransaction', function(req, res){
+  var newTransaction = {
+    child_id: req.body.child_Id,
+    date: new Date(),
+    amount: req.body.amount,
+    description: req.body.transaction
+  }
+  console.log(newTransaction);
+  knex('transactions').insert(newTransaction).then(function(result){
+    if(!result){
+      return res.status(500).json({error: 'Could not save transaction'});
+    }
+    res.json({});
+  });
 })
 
 

@@ -75,14 +75,14 @@
 
 	var _routes2 = _interopRequireDefault(_routes);
 
-	var _reduxPromise = __webpack_require__(322);
+	var _reduxPromise = __webpack_require__(324);
 
 	var _reduxPromise2 = _interopRequireDefault(_reduxPromise);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	__webpack_require__(329);
-	__webpack_require__(332);
+	__webpack_require__(331);
+	__webpack_require__(334);
 
 	var logger = function logger(store) {
 	  return function (next) {
@@ -26298,6 +26298,26 @@
 	    case _index.RESET_TRANSACTIONS:
 	      return _extends({}, state, { transactions: { transactions: null, error: null, loading: false } });
 
+	    case _index.CREATE_TRANSACTION:
+	      return _extends({}, state, { newTransaction: _extends({}, state.newTransaction, { loading: true }) });
+	    case _index.CREATE_TRANSACTION_SUCCESS:
+	      return _extends({}, state, { newTransaction: { transaction: action.payload, error: null, loading: false } });
+	    case _index.CREATE_TRANSACTION_FAILURE:
+	      return _extends({}, state, { newTransaction: { transaction: null, error: action.payload.data, loading: false } });
+	    case _index.RESET_NEW_TRANSACTION:
+	      return _extends({}, state, { newTransaction: { transaction: null, error: null, loading: false } });
+
+	    case _index.VALIDATE_TRANSACTION_FIELDS:
+	      return _extends({}, state, { newTransaction: _extends({}, state.newTransaction, { error: null, loading: true }) });
+	    case _index.VALIDATE_TRANSACTION_FIELDS_SUCCESS:
+	      return _extends({}, state, { newTransaction: _extends({}, state.newTransaction, { error: null, loading: false }) });
+	    case _index.VALIDATE_TRANSACTION_FIELDS_FAILURE:
+	      var resultTransaction = action.payload.data;
+	      var errorTransaction = { transaction: resultTransaction.transaction, amount: resultTransaction.amount };
+	      return _extends({}, state, { newTransaction: _extends({}, state.newTransaction, { error: errorTask, loading: false }) });
+	    case _index.RESET_TRANSACTION_FIELDS:
+	      return _extends({}, state, { newTransaction: _extends({}, state.newTransaction, { transaction: null, error: null, loading: null }) });
+
 	    default:
 	      return state;
 	  }
@@ -26322,7 +26342,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.RESET_NEW_TRANSACTION = exports.CREATE_TRANSACTION_FAILURE = exports.CREATE_TRANSACTION_SUCCESS = exports.CREATE_TRANSACTION = exports.RESET_TRANSACTIONS = exports.FETCH_TRANSACTIONS_FAILURE = exports.FETCH_TRANSACTIONS_SUCCESS = exports.FETCH_TRANSACTIONS = exports.TOGGLE_TASK_FAILURE = exports.TOGGLE_TASK_SUCCESS = exports.TOGGLE_TASK = exports.RESET_ACTIVE_TASKS = exports.FETCH_TASKS_FAILURE = exports.FETCH_TASKS_SUCCESS = exports.FETCH_TASKS = exports.RESET_CHILD_FIELDS = exports.VALIDATE_CHILD_FIELDS_FAILURE = exports.VALIDATE_CHILD_FIELDS_SUCCESS = exports.VALIDATE_CHILD_FIELDS = exports.RESET_TASK_FIELDS = exports.VALIDATE_TASK_FIELDS_FAILURE = exports.VALIDATE_TASK_FIELDS_SUCCESS = exports.VALIDATE_TASK_FIELDS = exports.RESET_NEW_TASK = exports.CREATE_TASK_FAILURE = exports.CREATE_TASK_SUCCESS = exports.CREATE_TASK = exports.RESET_NEW_CHILD = exports.CREATE_CHILD_FAILURE = exports.CREATE_CHILD_SUCCESS = exports.CREATE_CHILD = exports.RESET_CHILDREN = exports.FETCH_CHILDREN_FAILURE = exports.FETCH_CHILDREN_SUCCESS = exports.FETCH_CHILDREN = undefined;
+	exports.RESET_TRANSACTION_FIELDS = exports.VALIDATE_TRANSACTION_FIELDS_FAILURE = exports.VALIDATE_TRANSACTION_FIELDS_SUCCESS = exports.VALIDATE_TRANSACTION_FIELDS = exports.RESET_NEW_TRANSACTION = exports.CREATE_TRANSACTION_FAILURE = exports.CREATE_TRANSACTION_SUCCESS = exports.CREATE_TRANSACTION = exports.RESET_TRANSACTIONS = exports.FETCH_TRANSACTIONS_FAILURE = exports.FETCH_TRANSACTIONS_SUCCESS = exports.FETCH_TRANSACTIONS = exports.TOGGLE_TASK_FAILURE = exports.TOGGLE_TASK_SUCCESS = exports.TOGGLE_TASK = exports.RESET_ACTIVE_TASKS = exports.FETCH_TASKS_FAILURE = exports.FETCH_TASKS_SUCCESS = exports.FETCH_TASKS = exports.RESET_CHILD_FIELDS = exports.VALIDATE_CHILD_FIELDS_FAILURE = exports.VALIDATE_CHILD_FIELDS_SUCCESS = exports.VALIDATE_CHILD_FIELDS = exports.RESET_TASK_FIELDS = exports.VALIDATE_TASK_FIELDS_FAILURE = exports.VALIDATE_TASK_FIELDS_SUCCESS = exports.VALIDATE_TASK_FIELDS = exports.RESET_NEW_TASK = exports.CREATE_TASK_FAILURE = exports.CREATE_TASK_SUCCESS = exports.CREATE_TASK = exports.RESET_NEW_CHILD = exports.CREATE_CHILD_FAILURE = exports.CREATE_CHILD_SUCCESS = exports.CREATE_CHILD = exports.RESET_CHILDREN = exports.FETCH_CHILDREN_FAILURE = exports.FETCH_CHILDREN_SUCCESS = exports.FETCH_CHILDREN = undefined;
 	exports.fetchChildren = fetchChildren;
 	exports.fetchChildrenSuccess = fetchChildrenSuccess;
 	exports.fetchChildrenFailure = fetchChildrenFailure;
@@ -26357,6 +26377,10 @@
 	exports.createTransactionSuccess = createTransactionSuccess;
 	exports.createTransactionFailure = createTransactionFailure;
 	exports.resetNewTransaction = resetNewTransaction;
+	exports.validateTransactionFields = validateTransactionFields;
+	exports.validateTransactionFieldsSuccess = validateTransactionFieldsSuccess;
+	exports.validateTransactionFieldsFailure = validateTransactionFieldsFailure;
+	exports.resetTransactionFields = resetTransactionFields;
 
 	var _axios = __webpack_require__(240);
 
@@ -26409,11 +26433,16 @@
 	var FETCH_TRANSACTIONS_FAILURE = exports.FETCH_TRANSACTIONS_FAILURE = 'FETCH_TRANSACTIONS_FAILURE';
 	var RESET_TRANSACTIONS = exports.RESET_TRANSACTIONS = 'RESET_TRANSACTIONS';
 
-	// create transaction when task marked complete
+	// create transaction when task marked complete or manual entry
 	var CREATE_TRANSACTION = exports.CREATE_TRANSACTION = 'CREATE_TRANSACTION';
 	var CREATE_TRANSACTION_SUCCESS = exports.CREATE_TRANSACTION_SUCCESS = 'CREATE_TRANSACTION_SUCCESS';
 	var CREATE_TRANSACTION_FAILURE = exports.CREATE_TRANSACTION_FAILURE = 'CREATE_TRANSACTION_FAILURE';
 	var RESET_NEW_TRANSACTION = exports.RESET_NEW_TRANSACTION = 'RESET_NEW_TRANSACTION';
+
+	var VALIDATE_TRANSACTION_FIELDS = exports.VALIDATE_TRANSACTION_FIELDS = 'VALIDATE_TRANSACTION_FIELDS';
+	var VALIDATE_TRANSACTION_FIELDS_SUCCESS = exports.VALIDATE_TRANSACTION_FIELDS_SUCCESS = 'VALIDATE_TRANSACTION_FIELDS_SUCCESS';
+	var VALIDATE_TRANSACTION_FIELDS_FAILURE = exports.VALIDATE_TRANSACTION_FIELDS_FAILURE = 'VALIDATE_TRANSACTION_FIELDS_FAILURE';
+	var RESET_TRANSACTION_FIELDS = exports.RESET_TRANSACTION_FIELDS = 'RESET_TRANSACTION_FIELDS';
 
 	var ROOT_URL = location.href.indexOf('localhost') > 0 ? 'http://localhost:3000/api' : '/api';
 	function fetchChildren() {
@@ -26632,7 +26661,7 @@
 	};
 
 	function createTransaction(props) {
-	  var request = _axios2.default.post(ROOT_URL + '/createTransaction', props);
+	  var request = _axios2.default.post(ROOT_URL + '/createManualTransaction', props);
 
 	  return {
 	    type: CREATE_TRANSACTION,
@@ -26657,6 +26686,34 @@
 	function resetNewTransaction() {
 	  return {
 	    type: RESET_NEW_TRANSACTION
+	  };
+	};
+
+	function validateTransactionFields(props) {
+	  var request = _axios2.default.post(ROOT_URL + '/validateTransactionFields', props);
+
+	  return {
+	    type: VALIDATE_TRANSACTION_FIELDS,
+	    payload: request
+	  };
+	}
+
+	function validateTransactionFieldsSuccess() {
+	  return {
+	    type: VALIDATE_TRANSACTION_FIELDS_SUCCESS
+	  };
+	}
+
+	function validateTransactionFieldsFailure(error) {
+	  return {
+	    type: VALIDATE_TRANSACTION_FIELDS_FAILURE,
+	    payload: error
+	  };
+	}
+
+	function resetTransactionFields() {
+	  return {
+	    type: RESET_TRANSACTION_FIELDS
 	  };
 	};
 
@@ -30711,7 +30768,7 @@
 
 	var _ChildTransactions2 = _interopRequireDefault(_ChildTransactions);
 
-	var _Home = __webpack_require__(319);
+	var _Home = __webpack_require__(321);
 
 	var _Home2 = _interopRequireDefault(_Home);
 
@@ -32094,6 +32151,10 @@
 
 	var _TransactionListContainer2 = _interopRequireDefault(_TransactionListContainer);
 
+	var _TransactionFormContainer = __webpack_require__(319);
+
+	var _TransactionFormContainer2 = _interopRequireDefault(_TransactionFormContainer);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32118,7 +32179,29 @@
 	        'div',
 	        { className: 'container' },
 	        _react2.default.createElement(_HeaderContainer2.default, { type: 'transactions_show', postId: this.props.params.id }),
-	        _react2.default.createElement(_TransactionListContainer2.default, { id: this.props.params.id })
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'row' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-sm-7' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'panel panel-primary' },
+	              _react2.default.createElement(_TransactionListContainer2.default, { id: this.props.params.id })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'col-sm-5' },
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              'Add A New Transaction'
+	            ),
+	            _react2.default.createElement(_TransactionFormContainer2.default, { id: this.props.params.id })
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -32319,13 +32402,284 @@
 	  value: true
 	});
 
+	var _TransactionForm = __webpack_require__(320);
+
+	var _TransactionForm2 = _interopRequireDefault(_TransactionForm);
+
+	var _index = __webpack_require__(239);
+
+	var _reduxForm = __webpack_require__(257);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	//Client side validation
+	function validate(values) {
+	  var errors = {};
+
+	  if (!values.transaction || values.transaction.trim() === '') {
+	    errors.transaction = 'Select a transaction type.';
+	  }
+	  if (!values.amount || values.amount.trim() === '') {
+	    errors.amount = 'Enter an amount.';
+	  }
+	  if (values.transaction === 'Withdrawal' && values.amount > 0) {
+	    values.amount = -values.amount;
+	  }
+	  if (values.transaction === 'Deposit' && values.amount <= 0) {
+	    errors.amount = 'Deposit must be a value greater than $0.00';
+	  }
+	  if (values.amount == 0) {
+	    errors.amount = 'Transaction must be greater than $0.00';
+	  }
+	  return errors;
+	}
+
+	//For instant async server validation
+	var asyncValidate = function asyncValidate(values, dispatch) {
+	  return new Promise(function (resolve, reject) {
+	    dispatch((0, _index.validateTransactionFields)(values)).then(function (response) {
+	      var data = response.payload.data;
+	      //if status is not 200 or any one of the fields exist, then there is a field error
+	      if (response.payload.status != 200 || data.transaction || data.amount) {
+	        //let other components know of error by updating the redux` state
+	        dispatch((0, _index.validateTransactionFieldsFailure)(response.payload));
+	        reject(data); //this is for redux-form itself
+	      } else {
+	          //let other components know that everything is fine by updating the redux` state
+	          dispatch((0, _index.validateTransactionFieldsSuccess)(response.payload)); //ps: this is same as dispatching RESET_POST_FIELDS
+	          resolve(); //this is for redux-form itself
+	        }
+	    });
+	  });
+	};
+
+	//For any field errors upon submission (i.e. not instant check)
+	var validateAndCreateTransaction = function validateAndCreateTransaction(values, dispatch) {
+	  return new Promise(function (resolve, reject) {
+	    dispatch((0, _index.createTransaction)(values)).then(function (response) {
+	      var data = response.payload.data;
+	      //if any one of these exist, then there is a field error
+	      if (response.payload.status != 200) {
+	        //let other components know of error by updating the redux` state
+	        dispatch((0, _index.createTransactionFailure)(response.payload));
+	        reject(data); //this is for redux-form itself
+	      } else {
+	          //let other components know that everything is fine by updating the redux` state
+	          dispatch((0, _index.createTransactionSuccess)(response.payload));
+	          resolve(); //this is for redux-form itself
+	          dispatch((0, _index.fetchTransactions)(values.child_Id)).then(function (data) {
+	            !data.error ? dispatch((0, _index.fetchTransactionsSuccess)(data.payload)) : dispatch((0, _index.fetchTransactionsFailure)(data.payload));
+	          });
+	          dispatch((0, _index.resetTransactions)());
+	          dispatch((0, _index.resetNewTransaction)());
+	          dispatch((0, _reduxForm.reset)('TransactionNewForm'));
+	        }
+	    });
+	  });
+	};
+
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    createTransaction: validateAndCreateTransaction,
+	    resetMe: function resetMe() {
+	      dispatch((0, _index.resetNewTransaction)());
+	    }
+	  };
+	};
+
+	function mapStateToProps(state, ownProps) {
+	  return {
+	    newTransaction: state.children.newTransaction,
+	    child_Id: ownProps.id
+	  };
+	}
+
+	// connect: first argument is mapStateToProps, 2nd is mapDispatchToProps
+	// reduxForm: 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatchToProps
+	exports.default = (0, _reduxForm.reduxForm)({
+	  form: 'TransactionNewForm',
+	  fields: ['transaction', 'amount', 'child_Id'],
+	  asyncValidate: asyncValidate,
+	  asyncBlurFields: ['transaction'],
+	  validate: validate
+	}, mapStateToProps, mapDispatchToProps)(_TransactionForm2.default);
+
+/***/ },
+/* 320 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _HomeContainer = __webpack_require__(320);
+	var _reactRouter = __webpack_require__(181);
+
+	var _HeaderContainer = __webpack_require__(304);
+
+	var _HeaderContainer2 = _interopRequireDefault(_HeaderContainer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TransactionForm = function (_Component) {
+	  _inherits(TransactionForm, _Component);
+
+	  function TransactionForm() {
+	    _classCallCheck(this, TransactionForm);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TransactionForm).apply(this, arguments));
+	  }
+
+	  _createClass(TransactionForm, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      //Important! If your component is navigating based on some global state(from say componentWillReceiveProps)
+	      //always reset that global state back to null when you REMOUNT
+	      this.props.resetMe();
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.refs.transType.focus();
+	      //redux form update
+	      this.props.fields.child_Id.onChange(this.props.id);
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {}
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var asyncValidating = _props.asyncValidating;
+	      var _props$fields = _props.fields;
+	      var transaction = _props$fields.transaction;
+	      var amount = _props$fields.amount;
+	      var child_Id = _props$fields.child_Id;
+	      var handleSubmit = _props.handleSubmit;
+	      var submitting = _props.submitting;
+
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'form',
+	          { onSubmit: handleSubmit(this.props.createTransaction.bind(this)) },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'form-group ' + (transaction.touched && transaction.invalid ? 'has-error' : '') },
+	            _react2.default.createElement(
+	              'label',
+	              { className: 'control-label' },
+	              'Transaction Type'
+	            ),
+	            _react2.default.createElement(
+	              'select',
+	              _extends({}, transaction, { className: 'form-control', ref: 'transType', value: transaction.value || '' }),
+	              _react2.default.createElement('option', null),
+	              _react2.default.createElement(
+	                'option',
+	                { value: 'Withdrawal' },
+	                'Withdrawal'
+	              ),
+	              _react2.default.createElement(
+	                'option',
+	                { value: 'Deposit' },
+	                'Deposit'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'help-block' },
+	              transaction.touched ? transaction.error : ''
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'help-block' },
+	              asyncValidating === 'transaction' ? 'validating..' : ''
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'form-group ' + (amount.touched && amount.invalid ? 'has-error' : '') },
+	            _react2.default.createElement(
+	              'label',
+	              { className: 'control-label' },
+	              'Amount'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-group' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'input-group-addon' },
+	                '$'
+	              ),
+	              _react2.default.createElement('input', _extends({ type: 'text', placeholder: 'Amount', className: 'form-control' }, amount))
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'help-block' },
+	              amount.touched ? amount.error : ''
+	            )
+	          ),
+	          _react2.default.createElement('input', _extends({ type: 'hidden', value: this.props.child_Id, className: 'form-control' }, child_Id)),
+	          _react2.default.createElement(
+	            'button',
+	            { type: 'submit', className: 'btn btn-primary', disabled: submitting },
+	            'Transfer Cash'
+	          ),
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/', className: 'btn btn-error' },
+	            'Cancel'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TransactionForm;
+	}(_react.Component);
+
+	TransactionForm.contextTypes = {
+	  router: _react.PropTypes.object
+	};
+	exports.default = TransactionForm;
+
+/***/ },
+/* 321 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _HomeContainer = __webpack_require__(322);
 
 	var _HomeContainer2 = _interopRequireDefault(_HomeContainer);
 
@@ -32363,7 +32717,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 320 */
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32378,7 +32732,7 @@
 
 	var _reactRedux = __webpack_require__(160);
 
-	var _Home = __webpack_require__(321);
+	var _Home = __webpack_require__(323);
 
 	var _Home2 = _interopRequireDefault(_Home);
 
@@ -32397,7 +32751,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Home2.default);
 
 /***/ },
-/* 321 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32526,7 +32880,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 322 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32537,7 +32891,7 @@
 
 	exports['default'] = promiseMiddleware;
 
-	var _fluxStandardAction = __webpack_require__(323);
+	var _fluxStandardAction = __webpack_require__(325);
 
 	function isPromise(val) {
 	  return val && typeof val.then === 'function';
@@ -32564,7 +32918,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 323 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32575,7 +32929,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodashIsplainobject = __webpack_require__(324);
+	var _lodashIsplainobject = __webpack_require__(326);
 
 	var _lodashIsplainobject2 = _interopRequireDefault(_lodashIsplainobject);
 
@@ -32594,7 +32948,7 @@
 	}
 
 /***/ },
-/* 324 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32605,9 +32959,9 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var baseFor = __webpack_require__(325),
-	    isArguments = __webpack_require__(326),
-	    keysIn = __webpack_require__(327);
+	var baseFor = __webpack_require__(327),
+	    isArguments = __webpack_require__(328),
+	    keysIn = __webpack_require__(329);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -32703,7 +33057,7 @@
 
 
 /***/ },
-/* 325 */
+/* 327 */
 /***/ function(module, exports) {
 
 	/**
@@ -32757,7 +33111,7 @@
 
 
 /***/ },
-/* 326 */
+/* 328 */
 /***/ function(module, exports) {
 
 	/**
@@ -33006,7 +33360,7 @@
 
 
 /***/ },
-/* 327 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -33017,8 +33371,8 @@
 	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 	 * Available under MIT license <https://lodash.com/license>
 	 */
-	var isArguments = __webpack_require__(326),
-	    isArray = __webpack_require__(328);
+	var isArguments = __webpack_require__(328),
+	    isArray = __webpack_require__(330);
 
 	/** Used to detect unsigned integer values. */
 	var reIsUint = /^\d+$/;
@@ -33144,7 +33498,7 @@
 
 
 /***/ },
-/* 328 */
+/* 330 */
 /***/ function(module, exports) {
 
 	/**
@@ -33330,7 +33684,7 @@
 
 
 /***/ },
-/* 329 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33338,10 +33692,10 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(330);
+	var content = __webpack_require__(332);
 	if (typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(333)(content, {});
+	var update = __webpack_require__(335)(content, {});
 	if (content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if (false) {
@@ -33360,21 +33714,21 @@
 	}
 
 /***/ },
-/* 330 */
+/* 332 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(331)();
+	exports = module.exports = __webpack_require__(333)();
 	// imports
 
 
 	// module
-	exports.push([module.id, ".jumbotron{\n    background: url(" + __webpack_require__(332) + ") no-repeat center center;\n    color: white;\n    text-shadow: 2px 1px black;\n}\n\n.equal{\n    height:200px;\n    box-sizing: border-box;\n}\n\nul>div.panel {\n    height:100%;\n    padding-left: 0px;\n    padding-right: 0px;\n    margin-left: 25px;\n    box-sizing: border-box;\n    width: 350px;\n    background-color: #f5f5f5;\n    border-bottom-color: black;\n    border-right-color: black;\n}\n\n.vcenter {\n    display: inline-block;\n    vertical-align: bottom;\n    float: none;\n}\n", ""]);
+	exports.push([module.id, ".jumbotron{\n    background: url(" + __webpack_require__(334) + ") no-repeat center center;\n    color: white;\n    text-shadow: 2px 1px black;\n}\n\n.equal{\n    height:200px;\n    box-sizing: border-box;\n}\n\nul>div.panel {\n    height:100%;\n    padding-left: 0px;\n    padding-right: 0px;\n    margin-left: 25px;\n    box-sizing: border-box;\n    width: 350px;\n    background-color: #f5f5f5;\n    /*border-bottom-color: black;\n    border-right-color: black;*/\n}\n\n.vcenter {\n    display: inline-block;\n    vertical-align: bottom;\n    float: none;\n}\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 331 */
+/* 333 */
 /***/ function(module, exports) {
 
 	/*
@@ -33430,7 +33784,7 @@
 
 
 /***/ },
-/* 332 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -33438,7 +33792,7 @@
 	module.exports = __webpack_require__.p + "4dc98b7e47ef168f0d84b2b554dcc6d2.jpg";
 
 /***/ },
-/* 333 */
+/* 335 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*

@@ -31911,10 +31911,10 @@
 	  var errors = {};
 
 	  if (!values.task || values.task.trim() === '') {
-	    errors.task = 'Enter task name';
+	    errors.task = 'Enter task description';
 	  }
-	  if (!values.value || values.value.trim() === '') {
-	    errors.value = 'Enter value';
+	  if (!values.value || values.value.trim() === '' || values.value <= 0) {
+	    errors.value = 'Enter value greater than $0.00';
 	  }
 
 	  return errors;
@@ -32041,6 +32041,8 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      this.refs.taskDescription.focus();
+
 	      this.props.fields.child_Id.onChange(this.props.id);
 	    }
 	  }, {
@@ -32070,7 +32072,7 @@
 	              { className: 'control-label' },
 	              'Task'
 	            ),
-	            _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control' }, task)),
+	            _react2.default.createElement('input', _extends({ type: 'text', placeholder: 'Enter task description', ref: 'taskDescription', className: 'form-control' }, task)),
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'help-block' },
@@ -32090,7 +32092,16 @@
 	              { className: 'control-label' },
 	              'Value'
 	            ),
-	            _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control' }, value)),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'input-group' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'input-group-addon' },
+	                '$'
+	              ),
+	              _react2.default.createElement('input', _extends({ type: 'text', placeholder: 'Value', className: 'form-control' }, value))
+	            ),
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'help-block' },
@@ -32317,7 +32328,7 @@
 	      return transactions.map(function (transaction) {
 	        return _react2.default.createElement(
 	          'tr',
-	          { key: transaction.date },
+	          { className: transaction.amount > 0 ? "success" : "danger", key: transaction.date },
 	          _react2.default.createElement(
 	            'td',
 	            null,
@@ -32592,7 +32603,11 @@
 	            _react2.default.createElement(
 	              'select',
 	              _extends({}, transaction, { className: 'form-control', ref: 'transType', value: transaction.value || '' }),
-	              _react2.default.createElement('option', null),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '', disabled: true, defaultValue: true },
+	                'Select a transaction type'
+	              ),
 	              _react2.default.createElement(
 	                'option',
 	                { value: 'Withdrawal' },

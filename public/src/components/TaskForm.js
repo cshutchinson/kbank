@@ -40,7 +40,7 @@ class TaskForm extends Component {
           <label className="control-label">Value</label>
           <div className="input-group">
               <div className="input-group-addon">$</div>
-              <input type="text" className="form-control" {...value} />
+              <input type="text" placeholder="Value" className="form-control" {...value} />
           </div>
           <div className="help-block">
             {value.touched ? value.error : ''}

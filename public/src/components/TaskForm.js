@@ -15,7 +15,6 @@ class TaskForm extends Component {
 
   componentDidMount(){
     this.refs.taskDescription.focus()
-
     this.props.fields.child_Id.onChange(this.props.id);
   }
 

@@ -27,7 +27,7 @@ class TransactionList extends Component {
   renderTransactions(transactions) {
     return transactions.map((transaction) => {
       return (
-        <tr key={transaction.date}>
+        <tr className={transaction.amount > 0 ? "success" : "danger"} key={transaction.date}>
           <td>{transaction.date}</td>
           <td>{transaction.description}</td>
           <td>{transaction.amount}</td>

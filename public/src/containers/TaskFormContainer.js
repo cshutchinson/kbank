@@ -9,10 +9,10 @@ function validate(values) {
   const errors = {};
 
   if (!values.task || values.task.trim() === '') {
-    errors.task = 'Enter task name';
+    errors.task = 'Enter task description';
   }
-  if (!values.value || values.value.trim() === '') {
-    errors.value = 'Enter value';
+  if (!values.value || values.value.trim() === '' || values.value <= 0) {
+    errors.value = 'Enter value greater than $0.00';
   }
 
   return errors;

@@ -14,6 +14,8 @@ class TaskForm extends Component {
   }
 
   componentDidMount(){
+    this.refs.taskDescription.focus()
+
     this.props.fields.child_Id.onChange(this.props.id);
   }
 
@@ -25,7 +27,7 @@ class TaskForm extends Component {
       <form onSubmit={handleSubmit(this.props.createTask.bind(this))}>
         <div className={`form-group ${task.touched && task.invalid ? 'has-error' : ''}`}>
           <label className="control-label">Task</label>
-          <input type="text" className="form-control" {...task} />
+          <input type="text" placeholder="Enter task description" ref="taskDescription" className="form-control" {...task} />
           <div className="help-block">
             {task.touched ? task.error : ''}
           </div>
@@ -36,7 +38,10 @@ class TaskForm extends Component {
 
         <div className={`form-group ${value.touched && value.invalid ? 'has-error' : ''}`}>
           <label className="control-label">Value</label>
-          <input type="text" className="form-control" {...value} />
+          <div className="input-group">
+              <div className="input-group-addon">$</div>
+              <input type="text" className="form-control" {...value} />
+          </div>
           <div className="help-block">
             {value.touched ? value.error : ''}
           </div>

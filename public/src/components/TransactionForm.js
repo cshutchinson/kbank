@@ -32,7 +32,7 @@ class TransactionForm extends Component {
         <div className={`form-group ${transaction.touched && transaction.invalid ? 'has-error' : ''}`}>
           <label className="control-label">Transaction Type</label>
           <select {...transaction} className="form-control" ref="transType" value={transaction.value || ''}>
-            <option></option>
+            <option value="" disabled defaultValue>Select a transaction type</option>
             <option value="Withdrawal">Withdrawal</option>
             <option value="Deposit">Deposit</option>
           </select>

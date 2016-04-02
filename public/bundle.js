@@ -32099,7 +32099,7 @@
 	                { className: 'input-group-addon' },
 	                '$'
 	              ),
-	              _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control' }, value))
+	              _react2.default.createElement('input', _extends({ type: 'text', placeholder: 'Value', className: 'form-control' }, value))
 	            ),
 	            _react2.default.createElement(
 	              'div',
@@ -32602,7 +32602,11 @@
 	            _react2.default.createElement(
 	              'select',
 	              _extends({}, transaction, { className: 'form-control', ref: 'transType', value: transaction.value || '' }),
-	              _react2.default.createElement('option', null),
+	              _react2.default.createElement(
+	                'option',
+	                { value: '', disabled: true, defaultValue: true },
+	                'Select a transaction type'
+	              ),
 	              _react2.default.createElement(
 	                'option',
 	                { value: 'Withdrawal' },

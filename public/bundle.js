@@ -32883,6 +32883,97 @@
 	              'Get Started'
 	            )
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'container' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col-md-4' },
+	              _react2.default.createElement(
+	                'h2',
+	                null,
+	                'Heading'
+	              ),
+	              _react2.default.createElement(
+	                'p',
+	                null,
+	                'Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. '
+	              ),
+	              _react2.default.createElement(
+	                'p',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { className: 'btn btn-default', href: '#', role: 'button' },
+	                  'View details »'
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col-md-4' },
+	              _react2.default.createElement(
+	                'h2',
+	                null,
+	                'Heading'
+	              ),
+	              _react2.default.createElement(
+	                'p',
+	                null,
+	                'Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. '
+	              ),
+	              _react2.default.createElement(
+	                'p',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { className: 'btn btn-default', href: '#', role: 'button' },
+	                  'View details »'
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col-md-4' },
+	              _react2.default.createElement(
+	                'h2',
+	                null,
+	                'Heading'
+	              ),
+	              _react2.default.createElement(
+	                'p',
+	                null,
+	                'Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.'
+	              ),
+	              _react2.default.createElement(
+	                'p',
+	                null,
+	                _react2.default.createElement(
+	                  'a',
+	                  { className: 'btn btn-default', href: '#', role: 'button' },
+	                  'View details »'
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        _react2.default.createElement('hr', null),
+	        _react2.default.createElement(
+	          'footer',
+	          { className: 'footer' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'container' },
+	            _react2.default.createElement(
+	              'p',
+	              { className: '' },
+	              'Place sticky footer content here.'
+	            )
+	          )
 	        )
 	      );
 	    }

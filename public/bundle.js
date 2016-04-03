@@ -32892,71 +32892,44 @@
 	            { className: 'row' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'col-md-4' },
+	              { className: 'col-sm-4' },
 	              _react2.default.createElement(
 	                'h2',
 	                null,
-	                'Heading'
+	                'Motivation'
 	              ),
 	              _react2.default.createElement(
 	                'p',
 	                null,
-	                'Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. '
-	              ),
-	              _react2.default.createElement(
-	                'p',
-	                null,
-	                _react2.default.createElement(
-	                  'a',
-	                  { className: 'btn btn-default', href: '#', role: 'button' },
-	                  'View details »'
-	                )
+	                'Don\'t just give your kids an allowance. Create a reward system to reinforce the behaviors you are teaching your children.'
 	              )
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'col-md-4' },
+	              { className: 'col-sm-4' },
 	              _react2.default.createElement(
 	                'h2',
 	                null,
-	                'Heading'
+	                'Custom Tasks'
 	              ),
 	              _react2.default.createElement(
 	                'p',
 	                null,
-	                'Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. '
-	              ),
-	              _react2.default.createElement(
-	                'p',
-	                null,
-	                _react2.default.createElement(
-	                  'a',
-	                  { className: 'btn btn-default', href: '#', role: 'button' },
-	                  'View details »'
-	                )
+	                'Create custom tasks for each of your children. Give tasks a monetary reward and mark them complete when done. A completed task automatically updates your child\'s virtual balance.'
 	              )
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'col-md-4' },
+	              { className: 'col-sm-4' },
 	              _react2.default.createElement(
 	                'h2',
 	                null,
-	                'Heading'
+	                'Transactions'
 	              ),
 	              _react2.default.createElement(
 	                'p',
 	                null,
-	                'Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.'
-	              ),
-	              _react2.default.createElement(
-	                'p',
-	                null,
-	                _react2.default.createElement(
-	                  'a',
-	                  { className: 'btn btn-default', href: '#', role: 'button' },
-	                  'View details »'
-	                )
+	                'Create deposits and withdrawals for each of your children to track their spending and savings. We can help you teach saving and spending behaviors easily.'
 	              )
 	            )
 	          )
@@ -32967,11 +32940,11 @@
 	          { className: 'footer' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'container' },
+	            { className: 'container text-center' },
 	            _react2.default.createElement(
 	              'p',
 	              { className: '' },
-	              'Place sticky footer content here.'
+	              'KBank - Copyright 2016'
 	            )
 	          )
 	        )

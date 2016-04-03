@@ -26342,7 +26342,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.RESET_TRANSACTION_FIELDS = exports.VALIDATE_TRANSACTION_FIELDS_FAILURE = exports.VALIDATE_TRANSACTION_FIELDS_SUCCESS = exports.VALIDATE_TRANSACTION_FIELDS = exports.RESET_NEW_TRANSACTION = exports.CREATE_TRANSACTION_FAILURE = exports.CREATE_TRANSACTION_SUCCESS = exports.CREATE_TRANSACTION = exports.RESET_TRANSACTIONS = exports.FETCH_TRANSACTIONS_FAILURE = exports.FETCH_TRANSACTIONS_SUCCESS = exports.FETCH_TRANSACTIONS = exports.TOGGLE_TASK_FAILURE = exports.TOGGLE_TASK_SUCCESS = exports.TOGGLE_TASK = exports.RESET_ACTIVE_TASKS = exports.FETCH_TASKS_FAILURE = exports.FETCH_TASKS_SUCCESS = exports.FETCH_TASKS = exports.RESET_CHILD_FIELDS = exports.VALIDATE_CHILD_FIELDS_FAILURE = exports.VALIDATE_CHILD_FIELDS_SUCCESS = exports.VALIDATE_CHILD_FIELDS = exports.RESET_TASK_FIELDS = exports.VALIDATE_TASK_FIELDS_FAILURE = exports.VALIDATE_TASK_FIELDS_SUCCESS = exports.VALIDATE_TASK_FIELDS = exports.RESET_NEW_TASK = exports.CREATE_TASK_FAILURE = exports.CREATE_TASK_SUCCESS = exports.CREATE_TASK = exports.RESET_NEW_CHILD = exports.CREATE_CHILD_FAILURE = exports.CREATE_CHILD_SUCCESS = exports.CREATE_CHILD = exports.RESET_CHILDREN = exports.FETCH_CHILDREN_FAILURE = exports.FETCH_CHILDREN_SUCCESS = exports.FETCH_CHILDREN = undefined;
+	exports.RESET_TRANSACTION_FIELDS = exports.VALIDATE_TRANSACTION_FIELDS_FAILURE = exports.VALIDATE_TRANSACTION_FIELDS_SUCCESS = exports.VALIDATE_TRANSACTION_FIELDS = exports.RESET_NEW_MANUAL_TRANSACTION = exports.CREATE_MANUAL_TRANSACTION_FAILURE = exports.CREATE_MANUAL_TRANSACTION_SUCCESS = exports.CREATE_MANUAL_TRANSACTION = exports.RESET_NEW_TRANSACTION = exports.CREATE_TRANSACTION_FAILURE = exports.CREATE_TRANSACTION_SUCCESS = exports.CREATE_TRANSACTION = exports.RESET_TRANSACTIONS = exports.FETCH_TRANSACTIONS_FAILURE = exports.FETCH_TRANSACTIONS_SUCCESS = exports.FETCH_TRANSACTIONS = exports.TOGGLE_TASK_FAILURE = exports.TOGGLE_TASK_SUCCESS = exports.TOGGLE_TASK = exports.RESET_ACTIVE_TASKS = exports.FETCH_TASKS_FAILURE = exports.FETCH_TASKS_SUCCESS = exports.FETCH_TASKS = exports.RESET_CHILD_FIELDS = exports.VALIDATE_CHILD_FIELDS_FAILURE = exports.VALIDATE_CHILD_FIELDS_SUCCESS = exports.VALIDATE_CHILD_FIELDS = exports.RESET_TASK_FIELDS = exports.VALIDATE_TASK_FIELDS_FAILURE = exports.VALIDATE_TASK_FIELDS_SUCCESS = exports.VALIDATE_TASK_FIELDS = exports.RESET_NEW_TASK = exports.CREATE_TASK_FAILURE = exports.CREATE_TASK_SUCCESS = exports.CREATE_TASK = exports.RESET_NEW_CHILD = exports.CREATE_CHILD_FAILURE = exports.CREATE_CHILD_SUCCESS = exports.CREATE_CHILD = exports.RESET_CHILDREN = exports.FETCH_CHILDREN_FAILURE = exports.FETCH_CHILDREN_SUCCESS = exports.FETCH_CHILDREN = undefined;
 	exports.fetchChildren = fetchChildren;
 	exports.fetchChildrenSuccess = fetchChildrenSuccess;
 	exports.fetchChildrenFailure = fetchChildrenFailure;
@@ -26377,6 +26377,10 @@
 	exports.createTransactionSuccess = createTransactionSuccess;
 	exports.createTransactionFailure = createTransactionFailure;
 	exports.resetNewTransaction = resetNewTransaction;
+	exports.createManualTransaction = createManualTransaction;
+	exports.createManualTransactionSuccess = createManualTransactionSuccess;
+	exports.createManualTransactionFailure = createManualTransactionFailure;
+	exports.resetNewManualTransaction = resetNewManualTransaction;
 	exports.validateTransactionFields = validateTransactionFields;
 	exports.validateTransactionFieldsSuccess = validateTransactionFieldsSuccess;
 	exports.validateTransactionFieldsFailure = validateTransactionFieldsFailure;
@@ -26438,6 +26442,11 @@
 	var CREATE_TRANSACTION_SUCCESS = exports.CREATE_TRANSACTION_SUCCESS = 'CREATE_TRANSACTION_SUCCESS';
 	var CREATE_TRANSACTION_FAILURE = exports.CREATE_TRANSACTION_FAILURE = 'CREATE_TRANSACTION_FAILURE';
 	var RESET_NEW_TRANSACTION = exports.RESET_NEW_TRANSACTION = 'RESET_NEW_TRANSACTION';
+
+	var CREATE_MANUAL_TRANSACTION = exports.CREATE_MANUAL_TRANSACTION = 'CREATE_TRANSACTION';
+	var CREATE_MANUAL_TRANSACTION_SUCCESS = exports.CREATE_MANUAL_TRANSACTION_SUCCESS = 'CREATE_TRANSACTION_SUCCESS';
+	var CREATE_MANUAL_TRANSACTION_FAILURE = exports.CREATE_MANUAL_TRANSACTION_FAILURE = 'CREATE_TRANSACTION_FAILURE';
+	var RESET_NEW_MANUAL_TRANSACTION = exports.RESET_NEW_MANUAL_TRANSACTION = 'RESET_NEW_TRANSACTION';
 
 	var VALIDATE_TRANSACTION_FIELDS = exports.VALIDATE_TRANSACTION_FIELDS = 'VALIDATE_TRANSACTION_FIELDS';
 	var VALIDATE_TRANSACTION_FIELDS_SUCCESS = exports.VALIDATE_TRANSACTION_FIELDS_SUCCESS = 'VALIDATE_TRANSACTION_FIELDS_SUCCESS';
@@ -26661,7 +26670,7 @@
 	};
 
 	function createTransaction(props) {
-	  var request = _axios2.default.post(ROOT_URL + '/createManualTransaction', props);
+	  var request = _axios2.default.post(ROOT_URL + '/createTransaction', props);
 
 	  return {
 	    type: CREATE_TRANSACTION,
@@ -26686,6 +26695,35 @@
 	function resetNewTransaction() {
 	  return {
 	    type: RESET_NEW_TRANSACTION
+	  };
+	};
+
+	function createManualTransaction(props) {
+	  var request = _axios2.default.post(ROOT_URL + '/createManualTransaction', props);
+
+	  return {
+	    type: CREATE_MANUAL_TRANSACTION,
+	    payload: request
+	  };
+	};
+
+	function createManualTransactionSuccess(newTransaction) {
+	  return {
+	    type: CREATE_MANUAL_TRANSACTION_SUCCESS,
+	    payload: newTransaction
+	  };
+	}
+
+	function createManualTransactionFailure(error) {
+	  return {
+	    type: CREATE_MANUAL_TRANSACTION_FAILURE,
+	    payload: error
+	  };
+	}
+
+	function resetNewManualTransaction() {
+	  return {
+	    type: RESET_NEW_MANUAL_TRANSACTION
 	  };
 	};
 
@@ -31516,7 +31554,7 @@
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
 	      if (nextProps.newChild.child && !nextProps.newChild.error) {
-	        this.context.router.push('/');
+	        this.context.router.push('/main');
 	      }
 	    }
 	  }, {
@@ -45569,22 +45607,22 @@
 	//For any field errors upon submission (i.e. not instant check)
 	var validateAndCreateTransaction = function validateAndCreateTransaction(values, dispatch) {
 	  return new Promise(function (resolve, reject) {
-	    dispatch((0, _index.createTransaction)(values)).then(function (response) {
+	    dispatch((0, _index.createManualTransaction)(values)).then(function (response) {
 	      var data = response.payload.data;
 	      //if any one of these exist, then there is a field error
 	      if (response.payload.status != 200) {
 	        //let other components know of error by updating the redux` state
-	        dispatch((0, _index.createTransactionFailure)(response.payload));
+	        dispatch((0, _index.createManualTransactionFailure)(response.payload));
 	        reject(data); //this is for redux-form itself
 	      } else {
 	          //let other components know that everything is fine by updating the redux` state
-	          dispatch((0, _index.createTransactionSuccess)(response.payload));
+	          dispatch((0, _index.createManualTransactionSuccess)(response.payload));
 	          resolve(); //this is for redux-form itself
 	          dispatch((0, _index.fetchTransactions)(values.child_Id)).then(function (data) {
 	            !data.error ? dispatch((0, _index.fetchTransactionsSuccess)(data.payload)) : dispatch((0, _index.fetchTransactionsFailure)(data.payload));
 	          });
 	          dispatch((0, _index.resetTransactions)());
-	          dispatch((0, _index.resetNewTransaction)());
+	          dispatch((0, _index.resetNewManualTransaction)());
 	          dispatch((0, _reduxForm.reset)('TransactionNewForm'));
 	        }
 	    });
@@ -45595,7 +45633,7 @@
 	  return {
 	    createTransaction: validateAndCreateTransaction,
 	    resetMe: function resetMe() {
-	      dispatch((0, _index.resetNewTransaction)());
+	      dispatch((0, _index.resetNewManualTransaction)());
 	    }
 	  };
 	};

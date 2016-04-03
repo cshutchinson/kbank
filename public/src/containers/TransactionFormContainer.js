@@ -1,5 +1,5 @@
 import TransactionForm from '../components/TransactionForm.js';
-import { createTransaction, createTransactionSuccess, createTransactionFailure, resetNewTransaction } from '../actions/index';
+import { createManualTransaction, createManualTransactionSuccess, createManualTransactionFailure, resetNewManualTransaction } from '../actions/index';
 import { validateTransactionFields, validateTransactionFieldsSuccess, validateTransactionFieldsFailure, resetTransactionFields } from '../actions/index';
 import { fetchTransactions, fetchTransactionsSuccess, fetchTransactionsFailure, resetTransactions } from '../actions/index';
 import { reduxForm, reset} from 'redux-form';
@@ -50,24 +50,24 @@ const asyncValidate = (values, dispatch) => {
 //For any field errors upon submission (i.e. not instant check)
 const validateAndCreateTransaction = (values, dispatch) => {
   return new Promise((resolve, reject) => {
-   dispatch(createTransaction(values))
+   dispatch(createManualTransaction(values))
     .then((response) => {
         let data = response.payload.data;
         //if any one of these exist, then there is a field error
         if(response.payload.status != 200) {
           //let other components know of error by updating the redux` state
-          dispatch(createTransactionFailure(response.payload));
+          dispatch(createManualTransactionFailure(response.payload));
            reject(data); //this is for redux-form itself
          } else {
             //let other components know that everything is fine by updating the redux` state
-          dispatch(createTransactionSuccess(response.payload));
+          dispatch(createManualTransactionSuccess(response.payload));
           resolve();//this is for redux-form itself
           dispatch(fetchTransactions(values.child_Id)).then((data) =>
             {
               !data.error ? dispatch(fetchTransactionsSuccess(data.payload)) : dispatch(fetchTransactionsFailure(data.payload));
             })
           dispatch(resetTransactions());
-          dispatch(resetNewTransaction());
+          dispatch(resetNewManualTransaction());
           dispatch(reset('TransactionNewForm'));
         }
       });
@@ -80,7 +80,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createTransaction: validateAndCreateTransaction,
     resetMe: () =>{
-      dispatch(resetNewTransaction());
+      dispatch(resetNewManualTransaction());
     }
   }
 }

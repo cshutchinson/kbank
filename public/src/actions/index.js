@@ -51,6 +51,11 @@ export const CREATE_TRANSACTION_SUCCESS = 'CREATE_TRANSACTION_SUCCESS';
 export const CREATE_TRANSACTION_FAILURE = 'CREATE_TRANSACTION_FAILURE';
 export const RESET_NEW_TRANSACTION = 'RESET_NEW_TRANSACTION';
 
+export const CREATE_MANUAL_TRANSACTION = 'CREATE_TRANSACTION';
+export const CREATE_MANUAL_TRANSACTION_SUCCESS = 'CREATE_TRANSACTION_SUCCESS';
+export const CREATE_MANUAL_TRANSACTION_FAILURE = 'CREATE_TRANSACTION_FAILURE';
+export const RESET_NEW_MANUAL_TRANSACTION = 'RESET_NEW_TRANSACTION';
+
 export const VALIDATE_TRANSACTION_FIELDS = 'VALIDATE_TRANSACTION_FIELDS';
 export const VALIDATE_TRANSACTION_FIELDS_SUCCESS = 'VALIDATE_TRANSACTION_FIELDS_SUCCESS';
 export const VALIDATE_TRANSACTION_FIELDS_FAILURE = 'VALIDATE_TRANSACTION_FIELDS_FAILURE';
@@ -277,7 +282,7 @@ export function resetTaskFields() {
 };
 
 export function createTransaction(props){
-  const request = axios.post(`${ROOT_URL}/createManualTransaction`, props);
+  const request = axios.post(`${ROOT_URL}/createTransaction`, props);
 
   return {
     type: CREATE_TRANSACTION,
@@ -302,6 +307,35 @@ export function createTransactionFailure(error) {
 export function resetNewTransaction() {
   return {
     type: RESET_NEW_TRANSACTION
+  }
+};
+
+export function createManualTransaction(props){
+  const request = axios.post(`${ROOT_URL}/createManualTransaction`, props);
+
+  return {
+    type: CREATE_MANUAL_TRANSACTION,
+    payload: request
+  };
+};
+
+export function createManualTransactionSuccess(newTransaction) {
+  return {
+    type: CREATE_MANUAL_TRANSACTION_SUCCESS,
+    payload: newTransaction
+  };
+}
+
+export function createManualTransactionFailure(error) {
+  return {
+    type: CREATE_MANUAL_TRANSACTION_FAILURE,
+    payload: error
+  };
+}
+
+export function resetNewManualTransaction() {
+  return {
+    type: RESET_NEW_MANUAL_TRANSACTION
   }
 };
 

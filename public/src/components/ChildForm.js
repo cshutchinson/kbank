@@ -15,7 +15,7 @@ class ChildForm extends Component {
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.newChild.child && !nextProps.newChild.error) {
-      this.context.router.push('/');
+      this.context.router.push('/main');
     }
   }
 

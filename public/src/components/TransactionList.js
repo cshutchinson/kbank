@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-//import { connect } from 'react-redux';
-// import { fetchPost, deletePost } from '../actions/index';
 import { Link } from 'react-router';
+var moment = require('moment');
+
 
 class TransactionList extends Component {
   static contextTypes = {
@@ -26,9 +26,10 @@ class TransactionList extends Component {
   }
   renderTransactions(transactions) {
     return transactions.map((transaction) => {
+      const formattedDate = moment(transaction.date).format('llll');
       return (
         <tr className={transaction.amount > 0 ? "success" : "danger"} key={transaction.date}>
-          <td>{transaction.date}</td>
+          <td className="text-center">{formattedDate}</td>
           <td>{transaction.description}</td>
           <td>{transaction.amount}</td>
         </tr>
@@ -46,7 +47,7 @@ class TransactionList extends Component {
       <table className="table table-striped table-hover">
         <thead>
           <tr>
-            <th>Date</th>
+            <th className="text-center">Date</th>
             <th>Description</th>
             <th>Amount</th>
           </tr>

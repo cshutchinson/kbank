@@ -35,7 +35,7 @@ class Home extends Component {
           <div className="row">
             <div className="col-sm-4">
               <h2>Motivation</h2>
-              <p>Don't just give your kids an allowance. Create a reward system to reinforce the behaviors you are teaching your children.</p>
+              <p>Don't just give your children an allowance. Create a reward system to reinforce the behaviors you are teaching your children.</p>
             </div>
             <div className="col-sm-4">
               <h2>Custom Tasks</h2>
@@ -43,7 +43,7 @@ class Home extends Component {
            </div>
             <div className="col-sm-4">
               <h2>Transactions</h2>
-              <p>Create deposits and withdrawals for each of your children to track their spending and savings. We can help you teach saving and spending behaviors easily.</p>
+              <p>Create deposits and withdrawals for each of your children to track their spending and savings. KBank can help you teach saving and spending behaviors with ease.</p>
             </div>
           </div>
         </div>

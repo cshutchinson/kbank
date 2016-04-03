@@ -32901,7 +32901,7 @@
 	              _react2.default.createElement(
 	                'p',
 	                null,
-	                'Don\'t just give your kids an allowance. Create a reward system to reinforce the behaviors you are teaching your children.'
+	                'Don\'t just give your children an allowance. Create a reward system to reinforce the behaviors you are teaching your children.'
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -32929,7 +32929,7 @@
 	              _react2.default.createElement(
 	                'p',
 	                null,
-	                'Create deposits and withdrawals for each of your children to track their spending and savings. We can help you teach saving and spending behaviors easily.'
+	                'Create deposits and withdrawals for each of your children to track their spending and savings. KBank can help you teach saving and spending behaviors with ease.'
 	              )
 	            )
 	          )

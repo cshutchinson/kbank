@@ -26,3 +26,18 @@ ul>div.panel {
     vertical-align: bottom;
     float: none;
 }
+
+.footer {
+  display: inline-flex;
+  position: relative;;
+  bottom: 0;
+  margin-top: 20px;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #38A8E8;
+}
+
+footer>div>p {
+  padding-top: 20px;
+}

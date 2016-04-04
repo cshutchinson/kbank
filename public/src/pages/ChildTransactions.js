@@ -5,6 +5,8 @@ import { Link } from 'react-router';
 import Header from '../containers/HeaderContainer.js';
 import TransactionListContainer from '../containers/TransactionListContainer.js';
 import TransactionFormContainer from '../containers/TransactionFormContainer.js';
+import Footer from '../containers/FooterContainer.js';
+
 
 class ChildTransactions extends Component {
   static contextTypes = {
@@ -26,6 +28,7 @@ class ChildTransactions extends Component {
             <TransactionFormContainer id={this.props.params.id}/>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

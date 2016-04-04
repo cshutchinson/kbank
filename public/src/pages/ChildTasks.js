@@ -5,6 +5,8 @@ import { Link } from 'react-router';
 import Header from '../containers/HeaderContainer.js';
 import TaskListContainer from '../containers/TaskListContainer.js';
 import TaskFormContainer from '../containers/TaskFormContainer.js';
+import Footer from '../containers/FooterContainer.js';
+
 
 class ChildTasks extends Component {
   static contextTypes = {
@@ -26,6 +28,7 @@ class ChildTasks extends Component {
               <TaskFormContainer id={this.props.params.id}/>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
